@@ -1,0 +1,9 @@
+node_modules
+/build
+/.env
+/api/.env
+.DS_Store
+.vscode
+/api/dist/*
+/ui/dist/*
+/api/.env

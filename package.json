@@ -1,0 +1,20 @@
+{
+	"name": "ds-bidra-editor",
+	"version": "0.0.1",
+	"description": "CMS for Bidra forms",
+	"main": "index.js",
+	"scripts": {
+		"dev": "concurrently -n \"api,ui,model\" -c \"gray,white,cyan\" \"pnpm -F '*api' run dev\" \"pnpm -F '*ui' run dev\"",
+		"build:docker": "/bin/sh build-docker.sh"
+	},
+	"keywords": [],
+	"author": "Digital Spedisjon",
+	"license": "ISC",
+	"devDependencies": {
+		"prettier": "^2.8.2"
+	},
+	"engines": {
+		"node": ">=18",
+		"pnpm": ">=8.2.0"
+	}
+}
