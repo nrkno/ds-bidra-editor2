@@ -1,10 +1,16 @@
 <script lang="ts">
-      import { writable } from "svelte/store";
+    import {PAGE, FORM} from "../../state/index";
     export let form:any;
+
+    function editForm() {
+        $PAGE = "EDITFORM";
+        $FORM=form;
+    }
 </script>
 <div class="formcard">
     <h3>{form.name}</h3>
     <p>{form.description}</p>
+    <button class="org-button org-button--primary" on:click={editForm}>Endre</button>
 </div>
 <style>
     .formcard {

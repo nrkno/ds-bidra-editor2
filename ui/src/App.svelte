@@ -1,17 +1,16 @@
 <script lang="ts">
-  import { writable } from "svelte/store";
+  import {PAGE} from "../state/index";
   import TopBar from "./components/TopBar.svelte";
   import AllForms from "./components/AllForms.svelte";
   import FormEditor from "./components/FormEditor.svelte";
-  let page: string = "FORM_EDIT";
 </script>
 
 <div class="org-root org-splitview">
   <TopBar />
-  {#if page === "ALLFORMS"}
+  {#if $PAGE === "ALLFORMS"}
     <AllForms />
   {:else}
-    <FormEditor />
+    <FormEditor/>
   {/if}
 </div>
 
