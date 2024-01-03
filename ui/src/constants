@@ -1,0 +1,19 @@
+export const defaultData = {
+  image: {
+    label: "Et bilde",
+    kaleidoId: "jxyKGSz5VrrrEtnX98uP_Q7sZUyFmhEplG8CzhkJ9jew",
+    alt: "Et bilde av noe",
+  },
+  text: {
+    label: "Kort spørsmål",
+  },
+  date: {
+    label: "Velg dato",
+  },
+  file: {
+    label: "Last opp filer",
+  },
+  email: {
+    label: "Skriv inn e-post"
+  }
+};
