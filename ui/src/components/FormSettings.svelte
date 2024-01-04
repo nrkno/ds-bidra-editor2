@@ -4,6 +4,10 @@
   import { monitorExpiry } from "../constants";
   import { orgChangelog, orgMonitor } from "@nrk/origo";
 
+  function saveValue(ev:Event):void {
+    $FORM[ev.target.id] = ev.target.value;
+    console.log('New data', $FORM);
+  }
   function resetForm(): void {
     console.log("reset to when opened");
   }
@@ -12,41 +16,40 @@
   }
 </script>
 
-<form>
+<form on:change={saveValue}>
   <label>
     SkjemaID
-    <input type="text" class="org-input" bind:value={$FORM.name} />
+    <input id="name" type="text" class="org-input" bind:value={$FORM.name} />
   </label>
   <label>
     Beskrivelse
-    <textarea class="org-input">{$FORM.description}</textarea>
+    <textarea id="description" class="org-input">{$FORM.description}</textarea>
   </label>
   <label>
     Kontaktperson
-    <input type="text" class="org-input" bind:value={$FORM.formContactPerson} />
+    <input type="text" id="formContactPerson" on:keyup={saveValue} class="org-input" bind:value={$FORM.formContactPerson} />
   </label>
   <div class="org-grid">
     <div class="org-6of12">
       <label>
         Aktivt fra
-        <input type="date" class="org-input" bind:value={$FORM.activeFrom} />
+        <input id="activeFrom" type="datetime-local" class="org-input" bind:value={$FORM.activeFrom} />
       </label>
     </div>
 
     <div class="org-6of12">
       <label>
         Aktivt til
-        <input type="date" class="org-input" bind:value={$FORM.activeTo} />
+        <input id="activeTo" type="datetime-local" class="org-input" bind:value={$FORM.activeTo} />
       </label>
     </div>
   </div>
     <KaleidoEditor id={$FORM.kaleidoId} format={"1:1"} button={true} />
-    <!-- <img alt="" class="image" src={`https://gfx.nrk.no/${$FORM.kaleidoId}`} /> -->
   <hr />
   <h3>Monitor</h3>
   <label>
     Når kan innsendinger slettes?
-    <select bind:value={$FORM.expiresInDays} class="org-input">
+    <select id="expiresInDays" bind:value={$FORM.expiresInDays} class="org-input">
       {#each monitorExpiry as me}
         <option value={me.value}>{me.label}</option>
       {/each}
@@ -54,18 +57,18 @@
   </label>
   <label>
     Skal tilgang begrenses til en gruppe?
-    <select class="org-input">
+    <select id="accessGroupId" class="org-input" bind:value={$FORM.accessGroupId}>
       <option value="">Ingen (Åpen for alle i NRK)</option>
     </select>
   </label>
   <h3>Kvittering</h3>
   <label>
     Emne
-    <input type="text" class="org-input" bind:value={$FORM.emailSubject} />
+    <input id="emailSubject" type="text" class="org-input" bind:value={$FORM.emailSubject} />
   </label>
   <label>
     Tekst som skal være med i e-posten
-    <textarea class="org-input">{$FORM.emailDescription}</textarea>
+    <textarea id="emailDescription" class="org-input" bind:value={$FORM.emailDescription}></textarea>
   </label>
   <button class="org-button org-button--secondary" on:click|preventDefault={resetForm}
     >{@html orgChangelog} Tilbakestill</button
@@ -76,9 +79,4 @@
 </form>
 
 <style>
-  .image {
-    border-radius: 50%;
-    width: 200px;
-    height: auto;
-  }
 </style>
