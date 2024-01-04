@@ -1,8 +1,9 @@
 <script lang="ts">
   import { NEWFORM } from "../state";
   import type { newForm } from "../utils";
-  import { orgBurgerMenu, orgGarbage, orgEditMetadata } from "@nrk/origo";
+  import { orgBurgerMenu, orgGarbage, orgEditMetadata, orgMoveVertical } from "@nrk/origo";
   import KaleidoEditor from "./KaleidoEditor.svelte";
+  import Video from "./Video.svelte";
   import FormComponents from "./FormComponents.svelte";
   export let item: any;
   export let index: number;
@@ -18,7 +19,7 @@
 </script>
 
 <div class="formElement org-grid">
-  <div class="org-1of12" style="cursor:grab;">{@html orgBurgerMenu}</div>
+  <div class="org-1of12 dragButton">{@html orgMoveVertical}</div>
   <div class="org-10of12">
     {#if ["text", "date", "file", "email"].includes(item.type)}
       <label>
@@ -56,8 +57,12 @@
       <hr />
     {/if}
     {#if item.type === "video"}
-    <p>{item.label}</p>
-    <span>Du må velge en video {item.videoId} {item.videoAspect}</span>
+      <p>{item.label}</p>
+      {#if item.videoId}
+        <Video videoId={item.videoId} videoAspect={item.videoAspect} />
+      {:else}
+        <span>Du må velge en video {item.videoId} {item.videoAspect}</span>
+      {/if}
     {/if}
     {#if item.type === "list"}
       <p>{item.label}</p>
@@ -77,12 +82,10 @@
       {/each}
     {/if}
     {#if item.type === "image"}
-    <KaleidoEditor id={item.kaleidoId} format="16:9" button={false}/>
-<!--       <figure>
-        
-        <img alt={item.alt} class="image" src={`https://gfx-stage.nrk.no/${item.kaleidoId}`} />
+      <figure>
+        <KaleidoEditor id={item.kaleidoId} format="16:9" button={false} />
         <figcaption>{item.label}</figcaption>
-      </figure> -->
+      </figure>
     {/if}
     {#if item.type === "contract"}
       <label>
@@ -92,7 +95,7 @@
       </label>
     {/if}
     {#if item.editing}
-      <FormComponents type={item.type} {index} componentData={item} />
+      <FormComponents {index} componentData={item} />
     {/if}
   </div>
   <div class="org-1of12">
@@ -110,8 +113,8 @@
     background: #d8dcdf;
   }
   .image {
-    width:350px;
-    height:auto;
+    width: 350px;
+    height: auto;
   }
   .required {
     color: red;
@@ -124,5 +127,11 @@
   }
   .h3 {
     font-size: 1.5em;
+  }
+  .dragButton {
+    cursor:grab;
+    margin-top: auto;
+    margin-bottom: auto;
+    font-size:1.5em;
   }
 </style>

@@ -9,6 +9,8 @@
     orgCheckC,
     orgDotHollow,
     orgPlayCl,
+    orgExternalLink,
+    orgInfo,
   } from "@nrk/origo";
   export let componentData: any;
   export let index: number;
@@ -39,6 +41,9 @@
       case "checkboxGroup":
         $NEWFORM[index].items = [{ name: "Valg", checked: true }];
         break;
+      case "video":
+        $NEWFORM[index].videoId = "0b5f3b0a-7577-4b81-93bb-1d4e85a4aa5a";
+        $NEWFORM[index].videoAspect = "16:9";
       default:
         break;
     }
@@ -101,13 +106,24 @@
       <label>
         Video ID
         <input type="text" id="videoId" class="org-input" value={componentData.videoId} />
+        {@html orgInfo}Les mer her om hvordan du kan legge inn video i Bidra-skjemaet
+        <a
+          href="https://nrkconfluence.atlassian.net/wiki/spaces/DIGSPED/pages/136118721/Legge+inn+video+i+Bidra-skjema"
+          target="_blank"
+          class="org-button"
+          rel="noreferrer"
+        >
+          {@html orgExternalLink}
+        </a>
       </label>
+      <br />
       <label>
-        Video Aspeckt
+        Video Aspekt
         <select id="videoAspect" bind:value={componentData.videoAspect} class="org-input">
-          <option value="16:9">16:9 (normal)</option>
-          <option value="4:3">4:3 (arkiv)</option>
-          <option value="9:16">9:16 (Høyde)</option>
+          <option value="16:9">16:9 (Normal)</option>
+          <option value="4:3">4:3 (Arkivstoff)</option>
+          <option value="9:16">9:16 (Mobil)</option>
+          <option value="1:1">1:1 (Instagram)</option>
         </select>
       </label>
     {/if}

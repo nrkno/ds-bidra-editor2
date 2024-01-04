@@ -9,12 +9,12 @@
   <aside class="org-grid" style="flex: 0 0 450px">
     <AllForms />
   </aside>
-  {#if $FORM.name}
+  {#if $FORM}
   <section class="org-grid">
     <FormPreview />
   </section>
   {/if}
-  {#if $FORM.name}
+  {#if $FORM}
     <aside class="org-grid" style="flex: 0 0 300px">
       <FormSettings />
     </aside>

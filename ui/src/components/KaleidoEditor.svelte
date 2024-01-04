@@ -23,7 +23,7 @@
 
       kaleido
         .getDerivate(id, {
-          width: 4096,
+          width: 300,
         })
         .then(({ url }) => {
           const img = new Image();
@@ -44,7 +44,7 @@
 
     kaleido
       .getDerivate(selectedId, {
-        width: 4096,
+        width: 350,
       })
       .then(({ url }) => {
         const img = new Image();
@@ -66,7 +66,7 @@
 <button
   name="open"
   class="org-button"
-  on:click={() => kaleido.picker({ onChange: selectImage, multiple: false })}
+  on:click|preventDefault={() => kaleido.picker({ onChange: selectImage, multiple: false })}
 >
   Velg bilde
 </button>
@@ -77,5 +77,8 @@
     height: 200px;
     clip-path: circle(100px at center);
     margin: 10px;
+  }
+  .imageEditor {
+    max-width:350px;
   }
 </style>
