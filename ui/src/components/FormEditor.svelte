@@ -1,21 +1,25 @@
 <script lang="ts">
+  import { FORM } from "../state";
   import FormPreview from "./FormPreview.svelte";
   import FormSettings from "./FormSettings.svelte";
   import AllForms from "./AllForms.svelte";
 </script>
 
 <main>
-  <aside class="org-grid" style="flex: 0 0 450px" >
+  <aside class="org-grid" style="flex: 0 0 450px">
     <AllForms />
   </aside>
-  <section class="org-grid" >
+  {#if $FORM.name}
+  <section class="org-grid">
     <FormPreview />
   </section>
-  <aside class="org-grid" style="flex: 0 0 300px" >
-    <FormSettings />
-  </aside>
+  {/if}
+  {#if $FORM.name}
+    <aside class="org-grid" style="flex: 0 0 300px">
+      <FormSettings />
+    </aside>
+  {/if}
 </main>
 
 <style>
-
 </style>

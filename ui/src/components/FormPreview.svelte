@@ -8,6 +8,7 @@
   import { v4 as uuidv4 } from 'uuid';
 
   $: $NEWFORM = mapOldForm($FORM.form);
+  
   function addNewItem() {
     const tempForm:newForm = $NEWFORM;
     tempForm.push({...defaultData['text'],editing:true, type:"text", required:false, id:uuidv4(), fieldName: uuidv4()})
