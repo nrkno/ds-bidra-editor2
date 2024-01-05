@@ -2,7 +2,8 @@ import Fastify, { FastifyRequest, RequestPayload } from "fastify";
 import fastifyStatic from "@fastify/static";
 import path from "path";
 import mongoose, { model, Schema } from "mongoose";
-import { formSchema } from "@nrk/ds-bidra-config-common";
+import { formSchema, agreementSchema, type Agreement, AgreementData } from "@nrk/ds-bidra-config-common";
+
 import { performHealthCheck, OK, WARNING } from "./health/health-check";
 import { Log } from "./log";
 
@@ -29,7 +30,18 @@ if (MONGO_URI) {
   process.exit(0);
 }
 
+const agreementModel = model(
+  'agreements',
+  new Schema(agreementSchema, { read: 'primaryPreferred' })
+);
 const formModel = model("forms", new Schema(formSchema, { read: "primaryPreferred" }));
+
+const filterNewestAll = (contracts:any) =>
+  contracts.map((item:any) => {
+    const contractItem = Object.assign({}, item);
+    contractItem.text = item.versions[item.versions.length - 1];
+    return contractItem;
+  });
 
 const SERVE_STATIC_FROM = process.env.UI_RELATIVE_PATH
   ? path.join(__dirname, process.env.UI_RELATIVE_PATH)
@@ -84,6 +96,18 @@ export default function createServer(opts?: { withLog: boolean }) {
         reply.status(500).send(err.stack || err.toString());
       });
   });
+
+  fastify.get("/agreement", (request,reply) => {
+    agreementModel
+    .find()
+    .lean()
+    .then(data => {
+      reply.status(200).send(filterNewestAll(data));
+    })
+    .catch(err => {
+      reply.status(500).send(err.stack || err.toString());
+    });
+  })
 
 
   console.log("SERVE_STATIC_FROM", SERVE_STATIC_FROM);

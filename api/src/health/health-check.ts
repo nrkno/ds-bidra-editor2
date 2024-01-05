@@ -20,7 +20,7 @@ interface SystemCheck {
 
 export async function performHealthCheck() {
   const healthCheckResponse: HealthCheckResponse = {
-    name: 'External user management for Mimir',
+    name: 'Bidra Editor2',
     status: 'UNDEFINED',
     updated: undefined,
     documentation: 'https://nrkconfluence.atlassian.net/wiki/spaces/META/pages/2995383/Bilderobot',

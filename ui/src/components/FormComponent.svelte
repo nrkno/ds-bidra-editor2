@@ -3,7 +3,8 @@
   import type { newForm } from "../utils";
   import { orgBurgerMenu, orgGarbage, orgEditMetadata, orgMoveVertical } from "@nrk/origo";
   import KaleidoEditor from "./KaleidoEditor.svelte";
-  import Video from "./Video.svelte";
+  import Video from "./form/Video.svelte";
+  import Contract from "./form/contract.svelte"
   import FormComponents from "./FormComponents.svelte";
   export let item: any;
   export let index: number;
@@ -88,11 +89,7 @@
       </figure>
     {/if}
     {#if item.type === "contract"}
-      <label>
-        <textarea disabled={true}>Avtaletekst bla bla bla...</textarea>
-        <br />
-        <label><input type="checkbox" class="org-input" />Lest og godtatt</label>
-      </label>
+    <Contract/>
     {/if}
     {#if item.editing}
       <FormComponents {index} componentData={item} />
