@@ -1,11 +1,12 @@
 <script lang="ts">
   import { NEWFORM } from "../state";
   import type { newForm } from "../utils";
-  import { orgBurgerMenu, orgGarbage, orgEditMetadata, orgMoveVertical } from "@nrk/origo";
+  import { orgGarbage, orgEditMetadata, orgMoveVertical } from "@nrk/origo";
   import KaleidoEditor from "./KaleidoEditor.svelte";
   import Video from "./form/Video.svelte";
   import Contract from "./form/contract.svelte"
   import FormComponents from "./FormComponents.svelte";
+  import FormEdit from "./FormEdit.svelte";
   export let item: any;
   export let index: number;
 
@@ -21,7 +22,7 @@
 
 <div class="formElement org-grid">
   <div class="org-1of12 dragButton">{@html orgMoveVertical}</div>
-  <div class="org-10of12">
+  <div class="org-7of12">
     {#if ["text", "date", "file", "email"].includes(item.type)}
       <label>
         {item.label}
@@ -92,8 +93,11 @@
     <Contract/>
     {/if}
     {#if item.editing}
-      <FormComponents {index} componentData={item} />
+      <FormEdit {index} componentData={item} />
     {/if}
+  </div>
+  <div class="org-3of12">
+    <FormComponents {index} componentData={item}/>
   </div>
   <div class="org-1of12">
     <button on:click={deleteItem} class="org-button">{@html orgGarbage}</button>

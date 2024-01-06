@@ -81,6 +81,9 @@ importers:
       '@nrk/origo':
         specifier: ^2.2.3
         version: 2.9.1
+      '@nrk/origo-dropdown':
+        specifier: ^5.0.0
+        version: 5.0.0
       '@nrk/origo-expand':
         specifier: ^5.0.0
         version: 5.0.0
@@ -3091,6 +3094,10 @@ packages:
     resolution: {integrity: sha512-YPps/ynW8gktzpBjsY451ZbdWY7Wc8FD7+KYhCC3XPKB7mRFy1u/7fOePQRuUPf/P9Ci5TH5ftcKt4lIYilMeA==}
     dev: false
 
+  /@nrk/core-toggle@4.0.1:
+    resolution: {integrity: sha512-r17I2TUwdn8zvFqP7MhtFRlOE6IlZH4Vp8ChfPvPSzpO0+88+DWdvXN2XIuatvV6bRWNbAPdH9y+PKAK2AYVHA==}
+    dev: false
+
   /@nrk/core-toggle@4.0.3:
     resolution: {integrity: sha512-xH1KUwHsWlsl/j5tvC7IMugpKymTrCIUOMa3a0EF2OpaGI9YrUOUwEMpTyJEdPn/6NZIjK2epeb07uYShwXZMA==}
     dev: false
@@ -3123,6 +3130,12 @@ packages:
     resolution: {integrity: sha512-g02hwBiCo2hUbFVpeReTw8aFTjzgc74FAQnQNTjIlZ/0o7EhScnYy27Ixw6iqFvwvU+FHdXsefOxYJP7uPCSgA==}
     dependencies:
       '@nrk/core-dialog': 3.1.0
+    dev: false
+
+  /@nrk/origo-dropdown@5.0.0:
+    resolution: {integrity: sha512-owGFoOsrGuukNRmE8lT7YS4f/OyojOZHCPFLeJeEJ1X50PM4MHz+Kt6EQ3zsfh1bdgEjnTsGoB1dChpgOmZ5EQ==}
+    dependencies:
+      '@nrk/core-toggle': 4.0.1
     dev: false
 
   /@nrk/origo-expand@5.0.0:

@@ -27,6 +27,7 @@
 		"@nrk/ds-bidra-config-common": "^1.3.3",
 		"@nrk/kaleido-ui": "^8.1.2",
 		"@nrk/origo": "^2.2.3",
+		"@nrk/origo-dropdown": "^5.0.0",
 		"@nrk/origo-expand": "^5.0.0",
 		"axios": "^1.5.0",
 		"svelte-sortable-list": "1.1.0",

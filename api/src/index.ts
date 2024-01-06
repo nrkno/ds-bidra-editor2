@@ -2,7 +2,12 @@ import Fastify, { FastifyRequest, RequestPayload } from "fastify";
 import fastifyStatic from "@fastify/static";
 import path from "path";
 import mongoose, { model, Schema } from "mongoose";
-import { formSchema, agreementSchema, type Agreement, AgreementData } from "@nrk/ds-bidra-config-common";
+import {
+  formSchema,
+  agreementSchema,
+  type Agreement,
+  AgreementData,
+} from "@nrk/ds-bidra-config-common";
 
 import { performHealthCheck, OK, WARNING } from "./health/health-check";
 import { Log } from "./log";
@@ -31,13 +36,13 @@ if (MONGO_URI) {
 }
 
 const agreementModel = model(
-  'agreements',
-  new Schema(agreementSchema, { read: 'primaryPreferred' })
+  "agreements",
+  new Schema(agreementSchema, { read: "primaryPreferred" })
 );
 const formModel = model("forms", new Schema(formSchema, { read: "primaryPreferred" }));
 
-const filterNewestAll = (contracts:any) =>
-  contracts.map((item:any) => {
+const filterNewestAll = (contracts: any) =>
+  contracts.map((item: any) => {
     const contractItem = Object.assign({}, item);
     contractItem.text = item.versions[item.versions.length - 1];
     return contractItem;
@@ -97,18 +102,17 @@ export default function createServer(opts?: { withLog: boolean }) {
       });
   });
 
-  fastify.get("/agreement", (request,reply) => {
+  fastify.get("/agreement", (request, reply) => {
     agreementModel
-    .find()
-    .lean()
-    .then(data => {
-      reply.status(200).send(filterNewestAll(data));
-    })
-    .catch(err => {
-      reply.status(500).send(err.stack || err.toString());
-    });
-  })
-
+      .find()
+      .lean()
+      .then((data) => {
+        reply.status(200).send(filterNewestAll(data));
+      })
+      .catch((err) => {
+        reply.status(500).send(err.stack || err.toString());
+      });
+  });
 
   console.log("SERVE_STATIC_FROM", SERVE_STATIC_FROM);
   if (SERVE_STATIC_FROM) {
@@ -133,11 +137,12 @@ export default function createServer(opts?: { withLog: boolean }) {
 
   fastify.get("/auth", (request: any, reply) => {
     if (validateAccess(request.headers["x-forwarded-groups"])) {
-      const user = request.headers["x-forwarded-user"];
+      const user = request.headers["X-Forwarded-User"];
+      const accessToken = request.headers["X-Forwarded-Access-Token"];
       const email = request.headers["x-forwarded-email"];
       const groups = request.headers["x-forwarded-groups"];
-      Log.log(`From headers: ${JSON.stringify({ user, email, groups })}`);
-      reply.status(200).send({ user, email, groups });
+      Log.log(`From headers: ${JSON.stringify({ accessToken, user, email, groups })}`);
+      reply.status(200).send({ accessToken, user, email, groups });
     } else {
       reply.status(403).send("Forbidden");
     }
