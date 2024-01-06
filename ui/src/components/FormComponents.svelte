@@ -68,7 +68,7 @@
   <div class="org-8of12">
 
     <button class="org-button toggleTypesButton">
-      {FORM_COMPONENTS.filter((fc) => fc.id === $NEWFORM[index].type)[0].description}
+      Type
       {@html orgDropdownArrowDown}</button
     >
     <bidraeditor-dropdown id={`types${index}`} hidden>
@@ -87,7 +87,7 @@
 
 <style>
   .selectedType {
-    border: 1px solid var(--org-color-gray-500);
+    background: var(--org-color-gray-300);
   }
   .toggleTypesButton {
     border: 1px solid;
