@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { NEWFORM } from "../state";
   import {
     orgImage,
@@ -14,12 +15,14 @@
   export let componentData: any;
   export let index: number;
 
+  let myDropdown:any;
+
+  onMount(() => {
+    myDropdown = document.getElementById(`dd${index}`);
+    myDropdown.hidden = true;
+  });
   function updateType(type: string): void {
-    const myDropdown: any = document.getElementById(`types${index}`);
-    if (myDropdown) {
-      console.log("myDrop", myDropdown);
-      myDropdown.hidden=true;
-    }
+    myDropdown.hidden = true;
     $NEWFORM[index].type = type;
     switch (type) {
       case "image":
@@ -65,23 +68,22 @@
 
 <div class="org-editorial org-grid" style="padding: var(--org-small)">
   {#if $NEWFORM[index]}
-  <div class="org-8of12">
-
-    <button class="org-button toggleTypesButton">
-      Type
-      {@html orgDropdownArrowDown}</button
-    >
-    <bidraeditor-dropdown id={`types${index}`} hidden>
-      {#each FORM_COMPONENTS as fc}
-        <button
-          class={`org-button${fc.id === componentData.type ? " selectedType" : ""}`}
-          on:click={() => {
-            updateType(fc.id);
-          }}>{@html fc.icon} {fc.description}</button
-        >
-      {/each}
-    </bidraeditor-dropdown>
-  </div>
+    <div class="org-8of12">
+      <button class="org-button toggleTypesButton">
+        Type
+        {@html orgDropdownArrowDown}</button
+      >
+      <bidraeditor-dropdown id={`dd${index}`} hidden>
+        {#each FORM_COMPONENTS as fc}
+          <button
+            class={`org-button${fc.id === componentData.type ? " selectedType" : ""}`}
+            on:click={() => {
+              updateType(fc.id);
+            }}>{@html fc.icon} {fc.description}</button
+          >
+        {/each}
+      </bidraeditor-dropdown>
+    </div>
   {/if}
 </div>
 

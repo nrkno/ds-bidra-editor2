@@ -4,7 +4,7 @@
   import { orgGarbage, orgEditMetadata, orgMoveVertical } from "@nrk/origo";
   import KaleidoEditor from "./KaleidoEditor.svelte";
   import Video from "./form/Video.svelte";
-  import Contract from "./form/contract.svelte"
+  import Contract from "./form/contract.svelte";
   import FormComponents from "./FormComponents.svelte";
   import FormEdit from "./FormEdit.svelte";
   export let item: any;
@@ -90,14 +90,14 @@
       </figure>
     {/if}
     {#if item.type === "contract"}
-    <Contract/>
+      <Contract />
     {/if}
     {#if item.editing}
       <FormEdit {index} componentData={item} />
     {/if}
   </div>
   <div class="org-3of12">
-    <FormComponents {index} componentData={item}/>
+    <FormComponents {index} componentData={item} />
   </div>
   <div class="org-1of12">
     <button on:click={deleteItem} class="org-button">{@html orgGarbage}</button>
@@ -130,9 +130,9 @@
     font-size: 1.5em;
   }
   .dragButton {
-    cursor:grab;
+    cursor: grab;
     margin-top: auto;
     margin-bottom: auto;
-    font-size:1.5em;
+    font-size: 1.5em;
   }
 </style>
