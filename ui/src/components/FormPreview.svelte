@@ -10,6 +10,7 @@
   $: $NEWFORM = mapOldForm($FORM.form);
   
   function addNewItem() {
+    $NEWFORM.forEach(f => f.editing = false);
     const tempForm:newForm = $NEWFORM;
     tempForm.push({...defaultData['text'],editing:true, type:"text", required:false, id:uuidv4(), fieldName: uuidv4()})
     $NEWFORM=tempForm;

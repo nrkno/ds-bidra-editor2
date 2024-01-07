@@ -6,7 +6,7 @@
 </script>
 
 <main>
-  <aside class="org-grid" style={`flex: 0 0 ${$SHOWFORMS ? 450 : 150}px`}>
+  <aside class="org-grid" style={`flex: 0 0 ${$SHOWFORMS ? 300 : 100}px`}>
     <button class="org-button" on:click={() => $SHOWFORMS = !$SHOWFORMS}>{$SHOWFORMS ? "Skjul skjema": "> Vis"}</button>
     <AllForms />
   </aside>

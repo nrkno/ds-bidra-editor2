@@ -11,7 +11,14 @@
   export let index: number;
 
   function toggleEditMode(): void {
-    $NEWFORM[index].editing = !$NEWFORM[index].editing;
+    $NEWFORM.forEach((f, idx) => {
+      if (idx !== index) {
+        $NEWFORM[idx].editing = false;
+      } else {
+        $NEWFORM[idx].editing = !f.editing;
+      }
+    });
+    //$NEWFORM[index].editing = !$NEWFORM[index].editing;
   }
   function deleteItem(): void {
     const tempForm: newForm = $NEWFORM;

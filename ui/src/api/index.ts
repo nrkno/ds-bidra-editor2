@@ -1,5 +1,9 @@
 import Axios from "axios";
 
+export async function saveFormToDatabase(form: any): Promise<boolean> {
+  console.log("Saving form to database", form);
+  return true;
+}
 export async function getAllAgreements() {
   const request = `http://localhost/agreement`;
   try {

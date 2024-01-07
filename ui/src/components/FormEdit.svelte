@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { NEWFORM } from "../state";
+  import { NEWFORM, FORM } from "../state";
+  import {saveFormToDatabase} from "api/index";
   import {
     orgExternalLink,
     orgInfo,
@@ -8,9 +9,10 @@
   export let index: number;
 
 
-  function saveValue(ev: Event): void {
-    console.log("saving...");
+  async function saveValue(ev: Event): Promise<void> {
     $NEWFORM[index][ev.target.id] = ev.target.value;
+    const saved = await saveFormToDatabase({...$FORM, form: $NEWFORM});
+    console.log("Saved to database", saved);
   }
   function init(el:HTMLElement) {
     el.focus();
@@ -19,10 +21,10 @@
 
 <div class="org-editorial org-grid" style="padding: var(--org-small)">
   <div class="org-10of12">
-    <form on:change={saveValue}>
+    <form>
       <label>
         Overskrift
-        <input id="label" type="text" class="org-input" on:focus={(evt) => evt.target.select()} use:init value={componentData.label} />
+        <input on:keyup={saveValue} id="label" type="text" class="org-input" on:focus={(evt) => evt.target.select()} use:init value={componentData.label} />
       </label>
       {#if ["text", "textarea", "date", "checkbox", "contract", "file", "email"].includes(componentData.type)}
         <label>
