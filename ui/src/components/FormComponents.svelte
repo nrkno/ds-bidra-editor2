@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { NEWFORM } from "../state";
   import {
     orgImage,
@@ -15,14 +14,10 @@
   export let componentData: any;
   export let index: number;
 
-  let myDropdown:any;
 
-  onMount(() => {
-    myDropdown = document.getElementById(`dd${index}`);
-    myDropdown.hidden = true;
-  });
-  function updateType(type: string): void {
-    myDropdown.hidden = true;
+  function updateType(ev: any): void {
+    const type = ev.target.value;
+    console.log("type", type);
     $NEWFORM[index].type = type;
     switch (type) {
       case "image":
@@ -69,7 +64,12 @@
 <div class="org-editorial org-grid" style="padding: var(--org-small)">
   {#if $NEWFORM[index]}
     <div class="org-8of12">
-      <button class="org-button toggleTypesButton">
+      <select on:change={updateType} class="org-input">
+        {#each FORM_COMPONENTS as fc}
+          <option value={fc.id}>{fc.description}</option>
+        {/each}
+      </select>
+      <!--       <button class="org-button toggleTypesButton">
         Type
         {@html orgDropdownArrowDown}</button
       >
@@ -82,7 +82,7 @@
             }}>{@html fc.icon} {fc.description}</button
           >
         {/each}
-      </bidraeditor-dropdown>
+      </bidraeditor-dropdown> -->
     </div>
   {/if}
 </div>

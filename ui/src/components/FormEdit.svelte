@@ -12,6 +12,9 @@
     console.log("saving...");
     $NEWFORM[index][ev.target.id] = ev.target.value;
   }
+  function init(el:HTMLElement) {
+    el.focus();
+  }
 </script>
 
 <div class="org-editorial org-grid" style="padding: var(--org-small)">
@@ -19,7 +22,7 @@
     <form on:change={saveValue}>
       <label>
         Overskrift
-        <input id="label" type="text" class="org-input" value={componentData.label} />
+        <input id="label" type="text" class="org-input" on:focus={(evt) => evt.target.select()} use:init value={componentData.label} />
       </label>
       {#if ["text", "textarea", "date", "checkbox", "contract", "file", "email"].includes(componentData.type)}
         <label>
