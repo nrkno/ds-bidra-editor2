@@ -1,5 +1,4 @@
 <script lang="ts">
-    import {FORM} from "../../state";
     import { onMount } from "svelte";
     import { getAllAgreements } from "../../api/index";
 

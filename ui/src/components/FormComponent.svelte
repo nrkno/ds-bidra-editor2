@@ -10,6 +10,9 @@
   export let item: any;
   export let index: number;
 
+  function saveImage(derivateId: string): void {
+    $NEWFORM[index].kaleidoId = derivateId;
+  }
   function toggleEditMode(): void {
     $NEWFORM.forEach((f, idx) => {
       if (idx !== index) {
@@ -18,7 +21,6 @@
         $NEWFORM[idx].editing = !f.editing;
       }
     });
-    //$NEWFORM[index].editing = !$NEWFORM[index].editing;
   }
   function deleteItem(): void {
     const tempForm: newForm = $NEWFORM;
@@ -62,7 +64,7 @@
       </select>
     {/if}
     {#if item.type === "line"}
-      <p>{item.label}</p>
+      {item.label}
       <hr />
     {/if}
     {#if item.type === "video"}
@@ -92,7 +94,7 @@
     {/if}
     {#if item.type === "image"}
       <figure>
-        <KaleidoEditor id={item.kaleidoId} format="16:9" button={false} />
+        <KaleidoEditor {saveImage} id={item.kaleidoId} format="16:9" button={false} />
         <figcaption>{item.label}</figcaption>
       </figure>
     {/if}

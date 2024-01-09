@@ -4,6 +4,10 @@
   import { monitorExpiry } from "../constants";
   import { orgChangelog, orgMonitor } from "@nrk/origo";
 
+  function saveImage(derivateId: string): void {
+    $FORM.kaleidoId = derivateId;
+  }
+
   function saveValue(ev: Event): void {
     $FORM[ev.target.id] = ev.target.value;
     console.log("New data", $FORM);
@@ -23,6 +27,7 @@
       SkjemaID
       <span class="required">*</span>
       <input id="name" type="text" class="org-input" bind:value={$FORM.name} />
+      <a href={`https://bidra.nrk.no/${$FORM.name}`}>{`https://bidra.nrk.no/${$FORM.name}`}</a><br/>
     </label>
     <label>
       Beskrivelse
@@ -65,7 +70,7 @@
         </label>
       </div>
     </div>
-    <KaleidoEditor id={$FORM.kaleidoId} format={"1:1"} button={true} />
+    <KaleidoEditor saveImage={saveImage} id={$FORM.kaleidoId} format={"1:1"} button={true} />
   </be-expand>
   <button type="button"> Monitor</button>
   <be-expand>
