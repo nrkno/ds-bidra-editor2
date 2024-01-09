@@ -9,16 +9,13 @@
     orgCheckC,
     orgDotHollow,
     orgPlayCl,
-    orgDropdownArrowDown,
   } from "@nrk/origo";
-  export let componentData: any;
   export let index: number;
 
-
-  function updateType(ev: any): void {
+  function updateType(ev: CustomEvent & { target: { id: string, checked?:boolean, value:string } }): void {
     const type = ev.target.value;
     $NEWFORM[index].type = type;
-    //$NEWFORM[index].editing = true;
+
     switch (type) {
       case "image":
         $NEWFORM[index].kaleidoId = "U3_Lg50O2IFV_8s4MTzxKAst5YsDnzsr3j5eqQjlq8Yg";
@@ -70,7 +67,7 @@
   </div>
     <div class="org-10of12">
 
-      <select bind:value={$NEWFORM[index].type} on:change={updateType} class="org-input">
+      <select bind:value={$NEWFORM[index].type} on:change={() => updateType} class="org-input">
         {#each FORM_COMPONENTS as fc}
           <option value={fc.id}>{fc.description}</option>
         {/each}
@@ -94,15 +91,4 @@
 </div>
 
 <style>
-  .selectedType {
-    background: var(--org-color-gray-300);
-  }
-  .toggleTypesButton {
-    border: 1px solid;
-  }
-  .typesDropDown {
-    border: 1px solid;
-    padding: 5px;
-    z-index: 2;
-  }
 </style>

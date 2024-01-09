@@ -4,7 +4,7 @@
   import { orgGarbage, orgEditMetadata, orgMoveVertical } from "@nrk/origo";
   import KaleidoEditor from "./KaleidoEditor.svelte";
   import Video from "./form/Video.svelte";
-  import Contract from "./form/contract.svelte";
+  import Contract from "./form/Contract.svelte";
   import FormComponents from "./FormComponents.svelte";
   import FormEdit from "./FormEdit.svelte";
   export let item: any;
@@ -106,7 +106,7 @@
     {/if}
   </div>
   <div class="org-3of12">
-    <FormComponents {index} componentData={item} />
+    <FormComponents {index} />
   </div>
   <div class="org-1of12">
     <button on:click={deleteItem} class="org-button">{@html orgGarbage}</button>

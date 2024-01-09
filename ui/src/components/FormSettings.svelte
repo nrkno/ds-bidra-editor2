@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { FORM } from "../state";
+  import { FORM, type FormEventHandler } from "../state";
   import KaleidoEditor from "./KaleidoEditor.svelte";
   import { monitorExpiry } from "../constants";
   import { orgChangelog, orgMonitor } from "@nrk/origo";
@@ -8,9 +8,11 @@
     $FORM.kaleidoId = derivateId;
   }
 
-  function saveValue(ev: Event): void {
-    $FORM[ev.target.id] = ev.target.value;
-    console.log("New data", $FORM);
+  function saveValue(event: FormEventHandler): void {
+    const target = event.target as HTMLInputElement;
+    if (target?.value) {
+      $FORM[target.id] = target.value;
+    }
   }
   function resetForm(): void {
     console.log("reset to when opened");
@@ -27,7 +29,8 @@
       SkjemaID
       <span class="required">*</span>
       <input id="name" type="text" class="org-input" bind:value={$FORM.name} />
-      <a href={`https://bidra.nrk.no/${$FORM.name}`}>{`https://bidra.nrk.no/${$FORM.name}`}</a><br/>
+      <a href={`https://bidra.nrk.no/${$FORM.name}`}>{`https://bidra.nrk.no/${$FORM.name}`}</a><br
+      />
     </label>
     <label>
       Beskrivelse
@@ -70,7 +73,7 @@
         </label>
       </div>
     </div>
-    <KaleidoEditor saveImage={saveImage} id={$FORM.kaleidoId} format={"1:1"} button={true} />
+    <KaleidoEditor {saveImage} id={$FORM.kaleidoId} format={"1:1"} button={true} />
   </be-expand>
   <button type="button"> Monitor</button>
   <be-expand>
@@ -110,7 +113,7 @@
 </form>
 
 <style>
-    .required {
+  .required {
     color: red;
   }
 </style>

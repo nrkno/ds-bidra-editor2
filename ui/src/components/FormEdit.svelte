@@ -1,15 +1,21 @@
 <script lang="ts">
-  import { NEWFORM, FORM } from "../state";
+  import { NEWFORM, FORM, type FormEventHandler } from "../state";
+  import { selectTextOnFocus } from "../utils";
   import { saveFormToDatabase } from "api/index";
   import { orgExternalLink, orgInfo } from "@nrk/origo";
   export let componentData: any;
   export let index: number;
 
-  async function saveValue(ev: Event): Promise<void> {
-    if (ev.target.id === "required") {
-      $NEWFORM[index][ev.target.id] = ev.target.checked;
+  async function saveValue(
+    event: FormEventHandler
+  ): Promise<void> {
+    const target = event.target as HTMLInputElement;
+    if (target.id === "required") {
+      $NEWFORM[index][target.id] = target.checked;
     } else {
-      $NEWFORM[index][ev.target.id] = ev.target.value;
+      if (target.value) {
+        $NEWFORM[index][target.id] = target.value;
+      }
     }
     const saved = await saveFormToDatabase({ ...$FORM, form: $NEWFORM });
     console.log("Saved to database", saved);
@@ -29,7 +35,7 @@
           id="label"
           type="text"
           class="org-input"
-          on:focus={(evt) => evt.target.select()}
+          use:selectTextOnFocus
           use:init
           value={componentData.label}
         />
@@ -50,7 +56,7 @@
         <label>
           Alternativ tekst
           <input
-            on:change={saveValue}
+            on:blur={saveValue}
             type="text"
             id="alternativeText"
             class="org-input"

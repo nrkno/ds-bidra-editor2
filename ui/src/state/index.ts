@@ -6,3 +6,7 @@ export const FORM = writable<FormData>();
 export const NEWFORM = writable<newForm>([]);
 
 export const SHOWFORMS = writable<boolean>(true);
+
+export interface FormEventHandler {
+    target: EventTarget | null;
+  }
