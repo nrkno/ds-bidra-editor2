@@ -52,12 +52,12 @@
       </label>
     {/if}
     {#if item.type === "label"}
-      <p class={`labelSize_${item.className}`}>{item.label.nb}</p>
+      <p class={`labelSize_${item.className}`}>{item.label?.nb}</p>
     {/if}
     {#if item.type === "radioGroup"}
       <p>{item.label?.nb}</p>
       <select class="org-input">
-<!--         {#each item.items as itm}
+        <!--         {#each item.items as itm}
           <option value={itm.value}>{itm.name}</option>
         {/each} -->
       </select>
@@ -77,19 +77,19 @@
     {#if item.type === "list"}
       <p>{item.label?.nb}</p>
       <select class="org-input">
-<!--         {#each item.items as itm}
+        <!--         {#each item.items as itm}
           <option value={itm.value}>{itm.name}</option>
         {/each} -->
       </select>
     {/if}
     {#if item.type === "checkboxGroup"}
       <p>{item.label?.nb}</p>
-      {#each item.items as itm}
+      <!--       {#each item.items as itm}
         <label>
           {item.name}
           <input type="checkbox" class="org-input" checked={itm.checked} />
         </label>
-      {/each}
+      {/each} -->
     {/if}
     {#if item.type === "image"}
       <figure>

@@ -9,7 +9,7 @@ type checkOptions = {
   checked:boolean;
 }
 export interface FormData {
-  _id?: any;
+  _id?: string;
   createdAt: Date;
   editedAt: Date;
   editedBy: string;
@@ -62,38 +62,38 @@ export interface FormData {
   name: string;
   form: [
     {
-      id: string;
+      _id?: string;
       editing: boolean;
-      items: listOptions[] | checkOptions[];
-      text: string;
-      placeholder: string;
-      style: string;
-      kaleidoid: string;
-      imageAltText: string;
-      videoId: string;
-      videoAspect: string;
-      signiantArgumentName: string;
-      signiantArgumentName_lat: string;
-      signiantArgumentName_lng: string;
-      signiantArgumentName_stadid: string;
-      contractId: string;
-      maxFileSize: number;
-      accept: string;
+      items?: listOptions[] | checkOptions[];
+      text?: string;
+      placeholder?: string;
+      style?: string;
+      kaleidoid?: string;
+      imageAltText?: string;
+      videoId?: string;
+      videoAspect?: string;
+      signiantArgumentName?: string;
+      signiantArgumentName_lat?: string;
+      signiantArgumentName_lng?: string;
+      signiantArgumentName_stadid?: string;
+      contractId?: string;
+      maxFileSize?: number;
+      accept?: string;
       body: string;
       target: string;
-      url: string;
-      label: unknown;
+      url?: string;
+      label: {nb: string;};
       type: string;
-      classname: string;
-      className: string;
-      multiple: boolean;
-      validations: {
-        required: boolean;
-        before: {
+      classname?: string;
+      className?: string;
+      multiple?: boolean;
+      validations?: {
+        required?: boolean;
+        before?: {
           type: string;
           required: false;
         };
-        after: {
+        after?: {
           type: string;
           required: false;
         };

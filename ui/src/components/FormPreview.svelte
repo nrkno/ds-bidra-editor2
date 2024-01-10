@@ -11,10 +11,11 @@
     const tempForm = $FORM.form;
     tempForm.push({
       ...defaultData["text"],
-      editing: true,
-      type: 'text',
-      signiantArgumentName: uuidv4(),
       _id: uuidv4(),
+      editing: true,
+      type: "text",
+      signiantArgumentName: uuidv4(),
+      validations: {required:false},
     });
     $FORM.form = tempForm;
   }

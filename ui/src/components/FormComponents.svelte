@@ -16,7 +16,6 @@
     ev: CustomEvent & { target: { id: string; checked?: boolean; value: string } },
   ): void {
     const type = ev.target.value;
-    console.log("updateType", $FORM.form[index]);
     switch (type) {
       case "image":
         $FORM.form[index].kaleidoid = "U3_Lg50O2IFV_8s4MTzxKAst5YsDnzsr3j5eqQjlq8Yg";
