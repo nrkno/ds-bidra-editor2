@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { FORM, type FormEventHandler } from "../state";
+  import { FORM, USERDATA, type FormEventHandler } from "../state";
   import KaleidoEditor from "./KaleidoEditor.svelte";
   import { monitorExpiry } from "../constants";
   import { orgChangelog, orgMonitor } from "@nrk/origo";
@@ -86,6 +86,9 @@
       Skal tilgang begrenses til en gruppe?
       <select id="accessGroupId" class="org-input" bind:value={$FORM.accessGroupId}>
         <option value="">Ingen (Åpen for alle i NRK)</option>
+        {#each $USERDATA.accessGroups as ag}
+        <option value={ag.id}>{ag.name}</option>
+        {/each}
       </select>
     </label>
   </be-expand>

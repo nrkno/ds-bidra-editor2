@@ -31,3 +31,18 @@ export async function getAllActiveForms() {
     return [];
   }
 }
+
+export async function getUserData() {
+  const request = `http://localhost/me`;
+  try {
+    const response = await Axios.get(request, {
+      headers: {
+        Accept: "application/json",
+      },
+    });
+    return response.data;
+  } catch (err: any) {
+    console.error("Could not get userdata", err, err?.response?.status, err?.response?.body);
+    return {};
+  }
+}

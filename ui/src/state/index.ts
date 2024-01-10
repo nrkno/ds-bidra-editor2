@@ -1,17 +1,13 @@
 import { writable } from "svelte/store";
 import { type FormData } from "../model/bidra-types";
 
-type UserData = {
-  name:string;
-  groups: string[];
-  access?: 'admin' | 'super';
-}
+import { type userData } from "../../../api/src/auth/index";
 export const FORM = writable<FormData>();
 //export const NEWFORM = writable<newForm>([]);
 
 export const SHOWFORMS = writable<boolean>(true);
 
-export const USERDATA = writable<UserData>({name:'Anders', groups: []})
+export const USERDATA = writable<userData>();
 export interface FormEventHandler {
-    target: EventTarget | null;
-  }
+  target: EventTarget | null;
+}

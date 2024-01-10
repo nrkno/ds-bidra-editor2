@@ -1,5 +1,6 @@
 import Fastify, { FastifyRequest, RequestPayload } from "fastify";
 import fastifyStatic from "@fastify/static";
+import { getUserData } from "./auth";
 import path from "path";
 import mongoose, { model, Schema } from "mongoose";
 import {
@@ -20,6 +21,7 @@ import {
   BIDRA_ADMIN_GROUP_ID,
   BIDRA_SUPERUSER_GROUP_ID,
 } from "./config";
+import { request } from "http";
 
 module.exports = createServer;
 
@@ -88,6 +90,12 @@ export default function createServer(opts?: { withLog: boolean }) {
       const statusCode = health.status === OK || health.status === WARNING ? 200 : 500;
       reply.status(statusCode).send(health);
     });
+  });
+
+  fastify.get("/me", async (request: any, reply) => {
+    const accessToken = request.headers["X-Forwarded-Access-Token"];
+    const userData = await getUserData(accessToken);
+    reply.status(200).send(userData);
   });
 
   fastify.get("/forms/active", (request: any, reply) => {
