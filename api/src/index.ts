@@ -17,8 +17,8 @@ import {
   IS_PRODUCTION,
   PORT,
   MONGO_URI,
-  MIMIR_ADMIN_GROUP_ID,
-  MIMIR_MARKETING_GROUP_ID,
+  BIDRA_ADMIN_GROUP_ID,
+  BIDRA_SUPERUSER_GROUP_ID,
 } from "./config";
 
 module.exports = createServer;
@@ -60,16 +60,15 @@ declare module "fastify" {
     user: any;
   }
 }
-
 function validateAccess(grouplist: string | undefined) {
   if (!IS_PRODUCTION) return true;
-  if (grouplist && MIMIR_ADMIN_GROUP_ID && MIMIR_MARKETING_GROUP_ID) {
+  if (grouplist && BIDRA_ADMIN_GROUP_ID && BIDRA_SUPERUSER_GROUP_ID) {
     const groups = grouplist.split(",");
-    if (groups.includes(MIMIR_ADMIN_GROUP_ID)) {
+    if (groups.includes(BIDRA_ADMIN_GROUP_ID)) {
       console.log("ADMIN");
       return true;
     }
-    if (groups.includes(MIMIR_MARKETING_GROUP_ID)) {
+    if (groups.includes(BIDRA_SUPERUSER_GROUP_ID)) {
       console.log("MARKETING");
       return true;
     }
@@ -118,7 +117,7 @@ export default function createServer(opts?: { withLog: boolean }) {
   if (SERVE_STATIC_FROM) {
     fastify.register(fastifyStatic, {
       root: SERVE_STATIC_FROM,
-      prefix: "/",
+      prefix: "/test",
       list: false,
       wildcard: true,
     });
