@@ -9,10 +9,8 @@
   async function saveValue(event: FormEventHandler): Promise<void> {
     const target = event.target as HTMLInputElement;
     if (target.id === "required") {
-      $FORM.form[index].validations = { type: target.checked, required: false };
+      $FORM.form[index].validations = {required: target.checked };
     } else if (target.id === "label") {
-      console.log("index", index);
-      console.log($FORM.form[index]);
       $FORM.form[index].label.nb = target.value;
     } else {
       if (target.value) {

@@ -8,6 +8,13 @@
     $FORM.kaleidoId = derivateId;
   }
 
+  function convertTime(datestring: string) {
+    if (!datestring) {return undefined};
+    return new Date(datestring).toISOString().substr(0, 16);
+  }
+  $: activeFrom = convertTime($FORM.activeFrom);
+  $: activeTo = convertTime($FORM.activeTo);
+
   function saveValue(event: FormEventHandler): void {
     const target = event.target as HTMLInputElement;
     if (target?.value) {
@@ -51,12 +58,7 @@
       <div class="org-6of12">
         <label>
           Aktivt fra
-          <input
-            id="activeFrom"
-            type="datetime-local"
-            class="org-input"
-            bind:value={$FORM.activeFrom}
-          />
+          <input id="activeFrom" type="datetime-local" class="org-input" bind:value={activeFrom} />
         </label>
       </div>
 
@@ -64,12 +66,7 @@
         <label>
           Aktivt til
           <span class="required">*</span>
-          <input
-            id="activeTo"
-            type="datetime-local"
-            class="org-input"
-            bind:value={$FORM.activeTo}
-          />
+          <input id="activeTo" type="datetime-local" class="org-input" bind:value={activeTo} />
         </label>
       </div>
     </div>

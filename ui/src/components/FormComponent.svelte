@@ -9,8 +9,6 @@
   export let item: any;
   export let index: number;
 
-
-  console.log(item);
   function saveImage(derivateId: string): void {
     $FORM.form[index].kaleidoid = derivateId;
   }
@@ -35,21 +33,21 @@
   <div class="org-7of12">
     {#if ["text", "date", "file", "email"].includes(item.type)}
       <label>
-        {item.label.nb}
-        {#if item.required}<span class="required">*</span>{/if}
+        {item.label?.nb}
+        {#if item.validations?.required}<span class="required">*</span>{/if}
         <input type={item.type} class="org-input" />
       </label>
     {/if}
     {#if item.type === "textarea"}
       <label>
-        {item.label.nb}
-        {#if item.required}<span class="required">*</span>{/if}
+        {item.label?.nb}
+        {#if item.validations?.required}<span class="required">*</span>{/if}
         <textarea class="org-input"></textarea>
       </label>
     {/if}
     {#if item.type === "checkbox"}
       <label
-        >{item.label.nb}
+        >{item.label?.nb}
         <input type="checkbox" class="org-input" />
       </label>
     {/if}
@@ -57,7 +55,7 @@
       <p class={`labelSize_${item.className}`}>{item.label.nb}</p>
     {/if}
     {#if item.type === "radioGroup"}
-      <p>{item.label.nb}</p>
+      <p>{item.label?.nb}</p>
       <select class="org-input">
 <!--         {#each item.items as itm}
           <option value={itm.value}>{itm.name}</option>
@@ -65,7 +63,7 @@
       </select>
     {/if}
     {#if item.type === "line"}
-      {item.label.nb}
+      {item.label?.nb}
       <hr />
     {/if}
     {#if item.type === "video"}
@@ -77,7 +75,7 @@
       {/if}
     {/if}
     {#if item.type === "list"}
-      <p>{item.label.nb}</p>
+      <p>{item.label?.nb}</p>
       <select class="org-input">
 <!--         {#each item.items as itm}
           <option value={itm.value}>{itm.name}</option>
@@ -85,13 +83,13 @@
       </select>
     {/if}
     {#if item.type === "checkboxGroup"}
-      <p>{item.label}</p>
-<!--       {#each item.items as itm}
+      <p>{item.label?.nb}</p>
+      {#each item.items as itm}
         <label>
           {item.name}
           <input type="checkbox" class="org-input" checked={itm.checked} />
         </label>
-      {/each} -->
+      {/each}
     {/if}
     {#if item.type === "image"}
       <figure>

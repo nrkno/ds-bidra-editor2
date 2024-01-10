@@ -1,4 +1,13 @@
 import { Document, Schema } from "mongoose";
+
+type listOptions= {
+  name:string;
+  value:string;
+}
+type checkOptions = {
+  name: string;
+  checked:boolean;
+}
 export interface FormData {
   _id?: any;
   createdAt: Date;
@@ -42,18 +51,6 @@ export interface FormData {
         footer: string;
         url: string;
       };
-      en: {
-        subject: string;
-        description: string;
-        footer: string;
-        url: string;
-      };
-      se: {
-        subject: string;
-        description: string;
-        footer: string;
-        url: string;
-      };
     };
   };
   frontPage: boolean;
@@ -62,17 +59,12 @@ export interface FormData {
     TemplateLibraryName: string;
     TemplateName: string;
   };
-  name: {
-    type: string;
-    required: true;
-  };
+  name: string;
   form: [
     {
       id: string;
       editing: boolean;
-      items: {
-        type: [unknown];
-      };
+      items: listOptions[] | checkOptions[];
       text: string;
       placeholder: string;
       style: string;
@@ -91,38 +83,12 @@ export interface FormData {
       target: string;
       url: string;
       label: unknown;
-      type: {
-        type: string;
-        required: true;
-      };
+      type: string;
       classname: string;
       className: string;
       multiple: boolean;
       validations: {
-        required: {
-          type: boolean;
-          required: false;
-        };
-        email: {
-          type: boolean;
-          required: false;
-        };
-        phonenumber: {
-          type: boolean;
-          required: false;
-        };
-        date: {
-          type: boolean;
-          required: false;
-        };
-        numberonly: {
-          type: boolean;
-          required: false;
-        };
-        postcode: {
-          type: boolean;
-          required: false;
-        };
+        required: boolean;
         before: {
           type: string;
           required: false;

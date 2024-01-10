@@ -4,8 +4,6 @@
   const formWidth: number = 300;
   const imageHeight: number =
     formWidth / (parseInt(videoAspect.split(":")[0]) / parseInt(videoAspect.split(":")[1]));
-
-    console.log("videoId", videoId);
 const actualVideoId = videoId.split('/').pop();
 if (actualVideoId) {
   videoId = actualVideoId;

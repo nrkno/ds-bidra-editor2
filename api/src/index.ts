@@ -69,7 +69,7 @@ function validateAccess(grouplist: string | undefined) {
       return true;
     }
     if (groups.includes(BIDRA_SUPERUSER_GROUP_ID)) {
-      console.log("MARKETING");
+      console.log("SUPERUSER");
       return true;
     }
   }
@@ -94,7 +94,7 @@ export default function createServer(opts?: { withLog: boolean }) {
     formModel
       .find({ sectionTags: ["web"] })
       .then((forms) => {
-        reply.send(addIdToForms(forms));
+        reply.send(forms);
       })
       .catch((err) => {
         reply.status(500).send(err.stack || err.toString());

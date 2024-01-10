@@ -25,7 +25,6 @@
   function selectImage(state: any) {
     const selectedId = state.selected[0];
     kaleido.editor(editor, { id: selectedId, format, onDragend: handleImageChanged });
-    console.log("selected", selectedId);
     //saveImage(selectedId);
   }
 
