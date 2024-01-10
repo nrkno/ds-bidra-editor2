@@ -94,7 +94,7 @@ export default function createServer(opts?: { withLog: boolean }) {
     formModel
       .find({ sectionTags: ["web"] })
       .then((forms) => {
-        reply.send(forms);
+        reply.send(addIdToForms(forms));
       })
       .catch((err) => {
         reply.status(500).send(err.stack || err.toString());

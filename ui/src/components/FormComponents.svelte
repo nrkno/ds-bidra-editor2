@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { NEWFORM } from "../state";
+  import { FORM } from "../state";
   import {
     orgImage,
     orgUpload,
@@ -14,30 +14,30 @@
 
   function updateType(ev: CustomEvent & { target: { id: string, checked?:boolean, value:string } }): void {
     const type = ev.target.value;
-    $NEWFORM[index].type = type;
+    $FORM.form[index].type = {type:type, required:true}
 
     switch (type) {
       case "image":
-        $NEWFORM[index].kaleidoId = "U3_Lg50O2IFV_8s4MTzxKAst5YsDnzsr3j5eqQjlq8Yg";
-        $NEWFORM[index].alt = "Et bilde";
+        $FORM.form[index].kaleidoid = "U3_Lg50O2IFV_8s4MTzxKAst5YsDnzsr3j5eqQjlq8Yg";
+        $FORM.form[index].imageAltText = "Et bilde";
         break;
       case "email":
-        $NEWFORM[index].fieldName = "email";
+        $FORM.form[index].signiantArgumentName = "email";
       case "file":
-        $NEWFORM[index].accepted = "imageandvideo";
+        $FORM.form[index].accept = "imageandvideo";
         break;
       case "contract":
-        $NEWFORM[index].emailTemplate = "general";
+        $FORM.form[index].contractId = "general";
         break;
       case "list":
-        $NEWFORM[index].items = [{ name: "Valg", value: "verdi" }];
+        //$FORM.form[index].items = [{ name: "Valg", value: "verdi" }];
         break;
       case "checkboxGroup":
-        $NEWFORM[index].items = [{ name: "Valg", checked: true }];
+        //$FORM.form[index].items = [{ name: "Valg", checked: true }];
         break;
       case "video":
-        $NEWFORM[index].videoId = "0b5f3b0a-7577-4b81-93bb-1d4e85a4aa5a";
-        $NEWFORM[index].videoAspect = "16:9";
+        $FORM.form[index].videoId = "0b5f3b0a-7577-4b81-93bb-1d4e85a4aa5a";
+        $FORM.form[index].videoAspect = "16:9";
       default:
         break;
     }
@@ -61,31 +61,17 @@
 </script>
 
 <div class="org-grid org-editorial" style="padding: var(--org-small)">
-  {#if $NEWFORM[index]}
+  {#if $FORM.form[index]}
   <div class="org-1of12" style='padding-top:5px;padding-right:4px;'>
-    {@html FORM_COMPONENTS.filter(fc => fc.id === $NEWFORM[index].type)[0]?.icon}
+    {@html FORM_COMPONENTS.filter(fc => fc.id === $FORM.form[index].type)[0]?.icon}
   </div>
     <div class="org-10of12">
 
-      <select bind:value={$NEWFORM[index].type} on:change={() => updateType} class="org-input">
+      <select bind:value={$FORM.form[index].type} on:change={() => updateType} class="org-input">
         {#each FORM_COMPONENTS as fc}
           <option value={fc.id}>{fc.description}</option>
         {/each}
       </select>
-      <!--       <button class="org-button toggleTypesButton">
-        Type
-        {@html orgDropdownArrowDown}</button
-      >
-      <bidraeditor-dropdown id={`dd${index}`} hidden>
-        {#each FORM_COMPONENTS as fc}
-          <button
-            class={`org-button${fc.id === componentData.type ? " selectedType" : ""}`}
-            on:click={() => {
-              updateType(fc.id);
-            }}>{@html fc.icon} {fc.description}</button
-          >
-        {/each}
-      </bidraeditor-dropdown> -->
     </div>
   {/if}
 </div>

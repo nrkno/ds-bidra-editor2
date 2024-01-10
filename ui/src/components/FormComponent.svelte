@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { NEWFORM } from "../state";
-  import type { newForm } from "../utils";
+  import { FORM } from "../state";
   import { orgGarbage, orgEditMetadata, orgMoveVertical } from "@nrk/origo";
   import KaleidoEditor from "./KaleidoEditor.svelte";
   import Video from "./form/Video.svelte";
@@ -10,22 +9,24 @@
   export let item: any;
   export let index: number;
 
+
+  console.log(item);
   function saveImage(derivateId: string): void {
-    $NEWFORM[index].kaleidoId = derivateId;
+    $FORM.form[index].kaleidoid = derivateId;
   }
   function toggleEditMode(): void {
-    $NEWFORM.forEach((f, idx) => {
+    $FORM.form.forEach((f, idx) => {
       if (idx !== index) {
-        $NEWFORM[idx].editing = false;
+        $FORM.form[idx].editing = false;
       } else {
-        $NEWFORM[idx].editing = !f.editing;
+        $FORM.form[idx].editing = !f.editing;
       }
     });
   }
   function deleteItem(): void {
-    const tempForm: newForm = $NEWFORM;
+    const tempForm = $FORM.form;
     tempForm.splice(index, 1);
-    $NEWFORM = tempForm;
+    $FORM.form = tempForm;
   }
 </script>
 
@@ -34,41 +35,41 @@
   <div class="org-7of12">
     {#if ["text", "date", "file", "email"].includes(item.type)}
       <label>
-        {item.label}
+        {item.label.nb}
         {#if item.required}<span class="required">*</span>{/if}
         <input type={item.type} class="org-input" />
       </label>
     {/if}
     {#if item.type === "textarea"}
       <label>
-        {item.label}
+        {item.label.nb}
         {#if item.required}<span class="required">*</span>{/if}
         <textarea class="org-input"></textarea>
       </label>
     {/if}
     {#if item.type === "checkbox"}
       <label
-        >{item.label}
+        >{item.label.nb}
         <input type="checkbox" class="org-input" />
       </label>
     {/if}
     {#if item.type === "label"}
-      <p class={item.size}>{item.label}</p>
+      <p class={`labelSize_${item.className}`}>{item.label.nb}</p>
     {/if}
     {#if item.type === "radioGroup"}
-      <p>{item.label}</p>
+      <p>{item.label.nb}</p>
       <select class="org-input">
-        {#each item.items as itm}
+<!--         {#each item.items as itm}
           <option value={itm.value}>{itm.name}</option>
-        {/each}
+        {/each} -->
       </select>
     {/if}
     {#if item.type === "line"}
-      {item.label}
+      {item.label.nb}
       <hr />
     {/if}
     {#if item.type === "video"}
-      <p>{item.label}</p>
+      <p>{item.label?.nb || ""}</p>
       {#if item.videoId}
         <Video videoId={item.videoId} videoAspect={item.videoAspect} />
       {:else}
@@ -76,21 +77,21 @@
       {/if}
     {/if}
     {#if item.type === "list"}
-      <p>{item.label}</p>
+      <p>{item.label.nb}</p>
       <select class="org-input">
-        {#each item.items as itm}
+<!--         {#each item.items as itm}
           <option value={itm.value}>{itm.name}</option>
-        {/each}
+        {/each} -->
       </select>
     {/if}
     {#if item.type === "checkboxGroup"}
       <p>{item.label}</p>
-      {#each item.items as itm}
+<!--       {#each item.items as itm}
         <label>
-          {itm.name}
+          {item.name}
           <input type="checkbox" class="org-input" checked={itm.checked} />
         </label>
-      {/each}
+      {/each} -->
     {/if}
     {#if item.type === "image"}
       <figure>
@@ -129,13 +130,13 @@
   .required {
     color: red;
   }
-  .h1 {
+  .labelSize_h1 {
     font-size: 3em;
   }
-  .h2 {
+  .labelSize_h2 {
     font-size: 2em;
   }
-  .h3 {
+  .labelSize_p {
     font-size: 1.5em;
   }
   .dragButton {

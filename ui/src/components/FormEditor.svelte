@@ -6,20 +6,21 @@
 </script>
 
 <main>
-
   {#if $FORM}
-  <aside class="org-grid" style={`flex: 0 0 ${$SHOWFORMS ? 300 : 100}px`}>
-    <button class="org-button" on:click={() => $SHOWFORMS = !$SHOWFORMS}>{$SHOWFORMS ? "Skjul skjema": "> Vis"}</button>
-    <AllForms />
-  </aside>
-  <section class="org-grid">
-    <FormPreview />
-  </section>
+    <aside class="org-grid" style={`flex: 0 0 ${$SHOWFORMS ? 300 : 100}px`}>
+      <button class="org-button" on:click={() => ($SHOWFORMS = !$SHOWFORMS)}
+        >{$SHOWFORMS ? "Skjul skjema" : "> Vis"}</button
+      >
+      <AllForms />
+    </aside>
+    <section class="org-grid">
+      <FormPreview />
+    </section>
     <aside class="org-grid" style="flex: 0 0 300px">
       <FormSettings />
     </aside>
   {:else}
-  <AllForms />
+    <AllForms />
   {/if}
 </main>
 

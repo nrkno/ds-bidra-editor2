@@ -1,36 +1,39 @@
 <script lang="ts">
   import { orgPlus } from "@nrk/origo";
-  import { FORM, NEWFORM } from "../state";
+  import { FORM } from "../state";
   import SortableList from "svelte-sortable-list";
   import FormComponent from "./FormComponent.svelte";
-  import { mapOldForm, type newForm } from "../utils";
-  import {defaultData} from "../constants";
-  import { v4 as uuidv4 } from 'uuid';
+  import { defaultData } from "../constants";
+  import { v4 as uuidv4 } from "uuid";
 
-  $: $NEWFORM = mapOldForm($FORM.form);
-  
   function addNewItem() {
-    $NEWFORM.forEach(f => f.editing = false);
-    const tempForm:newForm = $NEWFORM;
-    tempForm.push({...defaultData['text'],editing:true, type:"text", required:false, id:uuidv4(), fieldName: uuidv4()})
-    $NEWFORM=tempForm;
+    $FORM.form.forEach((f) => (f.editing = false));
+    const tempForm = $FORM.form;
+    tempForm.push({
+      ...defaultData["text"],
+      editing: true,
+      type: 'text',
+      signiantArgumentName: uuidv4(),
+      _id: uuidv4(),
+    });
+    $FORM.form = tempForm;
   }
 
   const sortList = (ev: any) => {
-    $NEWFORM = ev.detail;
+    $FORM.form = ev.detail;
   };
-
 </script>
 
-<SortableList list={$NEWFORM} key="id" on:sort={sortList} let:item let:index>
-  <FormComponent {item} {index}/>
+<SortableList list={$FORM.form} key="_id" on:sort={sortList} let:item let:index>
+  <FormComponent {item} {index} />
 </SortableList>
 <div class="addComponent">
-    <button
-      class="org-button"
-      on:click={addNewItem}>{@html orgPlus}</button
-    >
+  <button class="org-button" on:click={addNewItem}>{@html orgPlus}</button>
 </div>
+
+<textarea>
+  {JSON.stringify($FORM)}
+</textarea>
 
 <style>
   .addComponent {

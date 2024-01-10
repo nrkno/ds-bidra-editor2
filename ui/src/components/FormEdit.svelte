@@ -1,23 +1,25 @@
 <script lang="ts">
-  import { NEWFORM, FORM, type FormEventHandler } from "../state";
+  import { FORM, type FormEventHandler } from "../state";
   import { selectTextOnFocus } from "../utils";
   import { saveFormToDatabase } from "api/index";
   import { orgExternalLink, orgInfo } from "@nrk/origo";
   export let componentData: any;
   export let index: number;
 
-  async function saveValue(
-    event: FormEventHandler
-  ): Promise<void> {
+  async function saveValue(event: FormEventHandler): Promise<void> {
     const target = event.target as HTMLInputElement;
     if (target.id === "required") {
-      $NEWFORM[index][target.id] = target.checked;
+      $FORM.form[index].validations = { type: target.checked, required: false };
+    } else if (target.id === "label") {
+      console.log("index", index);
+      console.log($FORM.form[index]);
+      $FORM.form[index].label.nb = target.value;
     } else {
       if (target.value) {
-        $NEWFORM[index][target.id] = target.value;
+        $FORM.form[index][target.id] = target.value;
       }
     }
-    const saved = await saveFormToDatabase({ ...$FORM, form: $NEWFORM });
+    const saved = await saveFormToDatabase($FORM);
     console.log("Saved to database", saved);
   }
   function init(el: HTMLElement) {
@@ -37,7 +39,7 @@
           class="org-input"
           use:selectTextOnFocus
           use:init
-          value={componentData.label}
+          value={componentData.label?.nb}
         />
       </label>
       {#if ["text", "textarea", "date", "checkbox", "contract", "file", "email"].includes(componentData.type)}
@@ -48,7 +50,7 @@
             id="required"
             type="checkbox"
             class="org-switch"
-            checked={componentData.required}
+            checked={componentData.validations?.required}
           />
         </label>
       {/if}
