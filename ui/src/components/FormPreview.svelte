@@ -9,6 +9,7 @@
   function addNewItem() {
     $FORM.form.forEach((f) => (f.editing = false));
     const tempForm = $FORM.form;
+    // @ts-ignore
     tempForm.push({
       ...defaultData["text"],
       _id: uuidv4(),

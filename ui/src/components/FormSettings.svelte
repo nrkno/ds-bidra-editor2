@@ -17,7 +17,8 @@
 
   function saveValue(event: FormEventHandler): void {
     const target = event.target as HTMLInputElement;
-    if (target?.value) {
+    if (target?.value && target?.id) {
+      // @ts-ignore
       $FORM[target.id] = target.value;
     }
   }
