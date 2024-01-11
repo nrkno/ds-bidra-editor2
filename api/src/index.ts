@@ -93,9 +93,14 @@ export default function createServer(opts?: { withLog: boolean }) {
   });
 
   fastify.get("/me", async (request: any, reply) => {
+    console.log("request.headers", request.headers["X-Forwarded-Access-Token"]);
+    if (request.headers["X-Forwarded-Access-Token"]) {
     const accessToken = request.headers["X-Forwarded-Access-Token"];
     const userData = await getUserData(accessToken);
     reply.status(200).send(userData);
+    } else {
+      reply.status(403).send("Forbidden");
+    }
   });
 
   fastify.get("/forms/active", (request: any, reply) => {
@@ -149,7 +154,7 @@ export default function createServer(opts?: { withLog: boolean }) {
       const email = request.headers["x-forwarded-email"];
       const groups = request.headers["x-forwarded-groups"];
       Log.log(`From headers: ${JSON.stringify({ accessToken, user, email, groups })}`);
-      reply.status(200).send({ accessToken, user, email, groups });
+      reply.status(200).send(request.headers);
     } else {
       reply.status(403).send("Forbidden");
     }

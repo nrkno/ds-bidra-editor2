@@ -1,4 +1,5 @@
 import Axios from "axios";
+import type { userData } from "../../../api/src/auth";
 
 export async function saveFormToDatabase(form: any): Promise<boolean> {
   console.log("Saving form to database", form);
@@ -32,7 +33,7 @@ export async function getAllActiveForms() {
   }
 }
 
-export async function getUserData() {
+export async function getUserData():Promise<userData> {
   const request = `http://localhost/me`;
   try {
     const response = await Axios.get(request, {
@@ -43,6 +44,6 @@ export async function getUserData() {
     return response.data;
   } catch (err: any) {
     console.error("Could not get userdata", err, err?.response?.status, err?.response?.body);
-    return {};
+    return { displayName: "Ikke innlogget", accessGroups: [] }
   }
 }

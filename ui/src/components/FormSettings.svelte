@@ -87,9 +87,11 @@
       Skal tilgang begrenses til en gruppe?
       <select id="accessGroupId" class="org-input" bind:value={$FORM.accessGroupId}>
         <option value="">Ingen (Åpen for alle i NRK)</option>
+        {#if $USERDATA.accessGroups.length >= 1}
         {#each $USERDATA.accessGroups as ag}
         <option value={ag.id}>{ag.name}</option>
         {/each}
+        {/if}
       </select>
     </label>
   </be-expand>
