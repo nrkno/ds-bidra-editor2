@@ -11,13 +11,15 @@
     orgPlayCl,
   } from "@nrk/origo";
   export let index: number;
-
-  function updateType(
-    ev: CustomEvent & { target: { id: string; checked?: boolean; value: string } },
+  function testFn() {
+    console.log("hei");
+  }
+  function updateType(ev:any
   ): void {
     const type = ev.target.value;
     switch (type) {
       case "image":
+        console.log("saving image case", $FORM.form[index]);
         $FORM.form[index].kaleidoid = "U3_Lg50O2IFV_8s4MTzxKAst5YsDnzsr3j5eqQjlq8Yg";
         $FORM.form[index].imageAltText = "Et bilde";
         break;
@@ -68,7 +70,7 @@
       {@html FORM_COMPONENTS.filter((fc) => fc.id === $FORM.form[index].type)[0]?.icon}
     </div>
     <div class="org-10of12">
-      <select bind:value={$FORM.form[index].type} on:change={() => updateType} class="org-input">
+      <select bind:value={$FORM.form[index].type} on:change={updateType} class="org-input">
         {#each FORM_COMPONENTS as fc}
           <option value={fc.id}>{fc.description}</option>
         {/each}

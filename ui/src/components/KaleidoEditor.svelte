@@ -8,6 +8,7 @@
   let editor: any;
   const IMAGE_MAX_WIDTH = 350;
 
+  console.log("kaleido id loaded", id);
   onMount(() => {
     kaleido.initialize({
       username: "bildebanken-keyart",
@@ -16,16 +17,22 @@
 
     if (id) {
       kaleido.editor(editor, {
-          id,
-          format,
-          onDragend: handleImageChanged,
-        });
+        showHelp: false,
+        id,
+        format,
+        onDragend: handleImageChanged,
+      });
     }
   });
   function selectImage(state: any) {
     const selectedId = state.selected[0];
-    kaleido.editor(editor, { id: selectedId, format, onDragend: handleImageChanged });
-    //saveImage(selectedId);
+    kaleido.editor(editor, {
+      showHelp: false,
+      id: selectedId,
+      format,
+      onDragend: handleImageChanged,
+    });
+    saveImage(selectedId);
   }
 
   type kaleidoDerivate = {
@@ -45,11 +52,9 @@
     y: number;
   };
   function handleImageChanged(data: any) {
-    console.log("drag ended");
     const kaleidoParameters = { ...data.params, width: IMAGE_MAX_WIDTH };
     kaleido.getDerivate(id, kaleidoParameters).then((derivate: kaleidoDerivate) => {
       saveImage(derivate.uri);
-      //id = derivate.uri;
     });
   }
 </script>
@@ -64,7 +69,6 @@
 >
   Velg bilde
 </button>
-{id}
 
 <style>
   .bidraButton {

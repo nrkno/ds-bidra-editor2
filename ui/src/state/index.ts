@@ -5,7 +5,10 @@ export const FORM = writable<FormData>();
 
 export const SHOWFORMS = writable<boolean>(true);
 
-export const USERDATA = writable<userData>({displayName:'unkown', accessGroups:[{name:'test', id:"sdfsdfsdf"}] });
+export const USERDATA = writable<userData>({
+  displayName: "unkown",
+  accessGroups: [{ name: "test", id: "sdfsdfsdf" }],
+});
 export interface FormEventHandler {
   target: EventTarget | null;
 }

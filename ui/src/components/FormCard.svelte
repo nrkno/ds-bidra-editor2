@@ -7,12 +7,16 @@
   }
 </script>
 
-<div class="org-editorial org-grid formRow">
+<div class={`org-editorial org-grid formCard${$FORM ? 'Small' : 'Big'}`}>
   <div class="org-3of12">
     {#if form.kaleidoId}
-    <img alt="Bilde til skjema" class="imagebadge" src={`https://gfx.nrk.no/${form.kaleidoId}`}/>
+      <img alt="Bilde til skjema" class="imagebadge" src={`https://gfx-stage.nrk.no/${form.kaleidoId}`} />
     {:else}
-    <img alt="Bilde til skjema" class="imagebadge" src="https://gfx.nrk.no/fHsO7EO53BC6bgrzqZogOAsPovkJ8pgyph0goPNdHUIQ"/>
+      <img
+        alt="Bilde til skjema"
+        class="imagebadge"
+        src="https://gfx-stage.nrk.no/fHsO7EO53BC6bgrzqZogOAsPovkJ8pgyph0goPNdHUIQ"
+      />
     {/if}
   </div>
   <div class="org-6of12">
@@ -22,18 +26,26 @@
   <div class="org-3of12" style="">
     <button class="org-button org-button--secondary" on:click={editForm}>Velg</button>
   </div>
-
 </div>
 
 <style>
   .imagebadge {
     border-radius: 50%;
-    width:45px;
-    height:45px;
-    margin:4px;
+    width: 45px;
+    height: 45px;
+    margin: 4px;
   }
-  .formRow {
-    height:65px;
-    padding:5px;
+  .formCardBig {
+    width:300px;
+    height:150px;
+    float:left;
+    margin:15px;
+  }
+
+  .formCardSmall {
+    width:auto;
+    max-height:100px;
+    float:left;
+    margin:5px;;
   }
 </style>

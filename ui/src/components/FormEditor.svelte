@@ -7,7 +7,7 @@
 
 <main>
   {#if $FORM}
-    <aside class="org-grid" style={`flex: 0 0 ${$SHOWFORMS ? 300 : 100}px`}>
+    <aside class="org-grid" style={`flex: 0 0 ${$SHOWFORMS ? 350 : 100}px`}>
       <button class="org-button" on:click={() => ($SHOWFORMS = !$SHOWFORMS)}
         >{$SHOWFORMS ? "Skjul skjema" : "> Vis"}</button
       >

@@ -93,8 +93,11 @@
     {/if}
     {#if item.type === "image"}
       <figure>
-        <KaleidoEditor {saveImage} id={item.kaleidoId} format="16:9" button={false} />
-        <figcaption>{item.label}</figcaption>
+        <KaleidoEditor {saveImage} id={item.kaleidoid} format="16:9" button={false} />
+        {#if item.kaleidoid}
+        {item.label.nb}
+        <p class="altText"><strong>AltText </strong>{item.alternativeText || '(Mangler)'}</p>
+        {/if}
       </figure>
     {/if}
     {#if item.type === "contract"}
@@ -142,5 +145,13 @@
     margin-top: auto;
     margin-bottom: auto;
     font-size: 1.5em;
+  }
+  .altText {
+    background:rgb(255,255,255,0.7);
+    position:relative;
+    width:90%;
+    text-align: center;
+    margin:auto;
+    top:-80px;
   }
 </style>
