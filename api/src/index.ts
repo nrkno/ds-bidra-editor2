@@ -93,9 +93,9 @@ export default function createServer(opts?: { withLog: boolean }) {
   });
 
   fastify.get("/me", async (request: any, reply) => {
-    console.log("request.headers", request.headers["X-Forwarded-Access-Token"]);
-    if (request.headers["X-Forwarded-Access-Token"]) {
-    const accessToken = request.headers["X-Forwarded-Access-Token"];
+    console.log("request.headers", request.headers["x-forwarded-access-token"]);
+    if (request.headers["x-forwarded-access-token"]) {
+    const accessToken = request.headers["x-forwarded-access-token"];
     const userData = await getUserData(accessToken);
     reply.status(200).send(userData);
     } else {
