@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"dev": "tsc -p tsconfig.json && nodemon dist/index.js"
+		"dev": "tsc -p tsconfig.json && nodemon dist/index.js",
+		"build":"tsc -p tsconfig.json"
 	},
 	"author": "",
 	"license": "ISC",
