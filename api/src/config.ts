@@ -10,3 +10,4 @@ export const BIDRA_ADMIN_GROUP_ID: string | undefined =
 export const BIDRA_SUPERUSER_GROUP_ID: string | undefined =
 	process.env.BIDRA_SUPERUSER_GROUP_ID;
 export const MONGO_URI = process.env.MONGO_URI;
+export const SERVE_STATIC_FROM=process.env.SERVER_STATIC_FROM;

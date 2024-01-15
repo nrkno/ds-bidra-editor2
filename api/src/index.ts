@@ -95,9 +95,9 @@ export default function createServer(opts?: { withLog: boolean }) {
   fastify.get("/me", async (request: any, reply) => {
     console.log("request.headers", request.headers["x-forwarded-access-token"]);
     if (request.headers["x-forwarded-access-token"]) {
-    const accessToken = request.headers["x-forwarded-access-token"];
-    const userData = await getUserData(accessToken);
-    reply.status(200).send(userData);
+      const accessToken = request.headers["x-forwarded-access-token"];
+      const userData = await getUserData(accessToken);
+      reply.status(200).send(userData);
     } else {
       reply.status(403).send("Forbidden");
     }
@@ -125,28 +125,6 @@ export default function createServer(opts?: { withLog: boolean }) {
         reply.status(500).send(err.stack || err.toString());
       });
   });
-
-  console.log("SERVE_STATIC_FROM", SERVE_STATIC_FROM);
-  if (SERVE_STATIC_FROM) {
-    fastify.register(fastifyStatic, {
-      root: SERVE_STATIC_FROM,
-      prefix: "/test",
-      list: false,
-      wildcard: true,
-    });
-    fastify.get("/", (request: any, reply) => {
-      if (validateAccess(request.headers["x-forwarded-groups"])) {
-        reply.sendFile("index.html");
-      } else {
-        reply.sendFile("forbidden.html");
-      }
-    });
-  } else {
-    fastify.get("/", (request, reply) => {
-      reply.send("Server ready");
-    });
-  }
-
   fastify.get("/auth", (request: any, reply) => {
     if (validateAccess(request.headers["x-forwarded-groups"])) {
       const user = request.headers["X-Forwarded-User"];
@@ -159,6 +137,24 @@ export default function createServer(opts?: { withLog: boolean }) {
       reply.status(403).send("Forbidden");
     }
   });
+
+  console.log("SERVE_STATIC_FROM", SERVE_STATIC_FROM);
+  if (SERVE_STATIC_FROM) {
+    fastify.register(fastifyStatic, {
+      root: SERVE_STATIC_FROM,
+      prefix: "/",
+      list: false,
+      wildcard: true,
+    });
+    fastify.get("/", (request: any, reply) => {
+      reply.sendFile("index.html");
+    });
+  } else {
+    fastify.get("/", (request, reply) => {
+      reply.send("Server ready");
+    });
+  }
+
   Log.fastify(fastify);
   return fastify;
 }
