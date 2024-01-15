@@ -1,4 +1,5 @@
-import Fastify, { FastifyRequest, RequestPayload } from "fastify";
+import Fastify, { FastifyInstance } from "fastify";
+import cors from "@fastify/cors";
 import fastifyStatic from "@fastify/static";
 import { getUserData } from "./auth";
 import path from "path";
@@ -21,7 +22,6 @@ import {
   BIDRA_ADMIN_GROUP_ID,
   BIDRA_SUPERUSER_GROUP_ID,
 } from "./config";
-import { request } from "http";
 
 module.exports = createServer;
 
@@ -36,6 +36,24 @@ if (MONGO_URI) {
   console.log("Can´t connect to database. Exiting");
   process.exit(0);
 }
+const ALLOWED_HEADERS = [
+  "DNT",
+  "Keep-Alive",
+  "User-Agent",
+  "X-Requested-With",
+  "If-Modified-Since",
+  "Cache-Control",
+  "Content-Type",
+  "Range",
+  "Authorization",
+  "Content-Disposition",
+  "X-User-Name",
+  "X-User-Username",
+  "X-Client",
+  "X-Context",
+  "Baggage",
+  "Sentry-Trace",
+];
 
 const agreementModel = model(
   "agreements",
@@ -77,22 +95,25 @@ function validateAccess(grouplist: string | undefined) {
   }
   return false;
 }
-export default function createServer(opts?: { withLog: boolean }) {
-  const fastify = Fastify({
+export default async function createServer(opts?: { withLog: boolean }): Promise<FastifyInstance> {
+  const app = Fastify({
     logger: !IS_PRODUCTION && opts && opts.withLog,
   });
 
-  fastify.register(require("@fastify/cors"), { origin: true });
+  await app.register(cors, {
+    origin: true,
+    allowedHeaders: ALLOWED_HEADERS,
+  });
 
   // Simple health check
-  fastify.get("/health", (request, reply) => {
+  app.get("/health", (request, reply) => {
     performHealthCheck().then((health) => {
       const statusCode = health.status === OK || health.status === WARNING ? 200 : 500;
       reply.status(statusCode).send(health);
     });
   });
 
-  fastify.get("/me", async (request: any, reply) => {
+  app.get("/me", async (request: any, reply) => {
     console.log("request.headers", request.headers["x-forwarded-access-token"]);
     if (request.headers["x-forwarded-access-token"]) {
       const accessToken = request.headers["x-forwarded-access-token"];
@@ -103,7 +124,7 @@ export default function createServer(opts?: { withLog: boolean }) {
     }
   });
 
-  fastify.get("/forms/active", (request: any, reply) => {
+  app.get("/forms/active", (request: any, reply) => {
     formModel
       .find({ sectionTags: ["web"] })
       .then((forms) => {
@@ -114,7 +135,7 @@ export default function createServer(opts?: { withLog: boolean }) {
       });
   });
 
-  fastify.get("/agreement", (request, reply) => {
+  app.get("/agreement", (request, reply) => {
     agreementModel
       .find()
       .lean()
@@ -125,7 +146,7 @@ export default function createServer(opts?: { withLog: boolean }) {
         reply.status(500).send(err.stack || err.toString());
       });
   });
-  fastify.get("/auth", (request: any, reply) => {
+  app.get("/auth", (request: any, reply) => {
     if (validateAccess(request.headers["x-forwarded-groups"])) {
       const user = request.headers["X-Forwarded-User"];
       const accessToken = request.headers["X-Forwarded-Access-Token"];
@@ -140,33 +161,38 @@ export default function createServer(opts?: { withLog: boolean }) {
 
   console.log("SERVE_STATIC_FROM", SERVE_STATIC_FROM);
   if (SERVE_STATIC_FROM) {
-    fastify.register(fastifyStatic, {
+    app.register(fastifyStatic, {
       root: SERVE_STATIC_FROM,
       prefix: "/",
       list: false,
       wildcard: true,
     });
-    fastify.get("/", (request: any, reply) => {
+    app.get("/", (request: any, reply) => {
       reply.sendFile("index.html");
     });
   } else {
-    fastify.get("/", (request, reply) => {
+    app.get("/", (request, reply) => {
       reply.send("Server ready");
     });
   }
 
-  Log.fastify(fastify);
-  return fastify;
+  Log.fastify(app);
+  await app.ready();
+
+  return app;
 }
 
-if (!IS_RUNNING_TESTS) {
-  const server = createServer();
-  // Run the server!
-  server.listen({ port: PORT, host: "0.0.0.0" }, (err, address) => {
-    if (err) {
-      throw err;
-    }
-    console.log("server listening", PORT);
-    server.log.info(`server listening on ${address}`);
-  });
+async function doWork() {
+  if (!IS_RUNNING_TESTS) {
+    const server = await createServer();
+    // Run the server!
+    server.listen({ port: PORT, host: "0.0.0.0" }, (err, address) => {
+      if (err) {
+        throw err;
+      }
+      console.log("server listening", PORT);
+      server.log.info(`server listening on ${address}`);
+    });
+  }
 }
+doWork();
