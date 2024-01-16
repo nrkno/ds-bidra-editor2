@@ -5,7 +5,7 @@ import type { Config } from "./src/config";
 
 const config: Config = {
 	release: process.env.RELEASE || "dev",
-	apiHost: "http://localhost:5001",
+	apiHost: "/",
 	navigationBehavior: "LOCATION",
 	authenticationFlow: "REDIRECT",
 };
