@@ -6,7 +6,7 @@ export async function saveFormToDatabase(form: any): Promise<boolean> {
   return true;
 }
 export async function getAllAgreements() {
-  const request = `http://localhost/agreement`;
+  const request = `/agreement`;
   try {
     const response = await Axios.get(request, {
       headers: {
@@ -19,7 +19,7 @@ export async function getAllAgreements() {
   }
 }
 export async function getAllActiveForms() {
-  const request = `http://localhost/forms/active`;
+  const request = `forms/active`;
   try {
     const response = await Axios.get(request, {
       headers: {
@@ -34,7 +34,7 @@ export async function getAllActiveForms() {
 }
 
 export async function getUserData():Promise<userData> {
-  const request = `http://localhost/me`;
+  const request = `/me`;
   try {
     const response = await Axios.get(request, {
       headers: {
