@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { FORM } from "../state/index";
+  import { FORM, SAVED_FORM } from "../state/index";
   export let form: any;
 
   function editForm() {
-    FORM.set(form);
+    FORM.set({...form});
+    SAVED_FORM.set({...form});
   }
 </script>
 

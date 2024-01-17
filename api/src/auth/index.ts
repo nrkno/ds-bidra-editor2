@@ -1,6 +1,7 @@
 import { getUser, getGroups } from "./msgraph";
 export type userData = {
   displayName: string;
+  userId?: string;
   accessGroups: accessGroups[];
 };
 type accessGroups = {

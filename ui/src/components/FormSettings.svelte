@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { FORM, USERDATA, type FormEventHandler } from "../state";
+  import { FORM, SAVED_FORM, USERDATA, type FormEventHandler } from "../state";
   import KaleidoEditor from "./KaleidoEditor.svelte";
   import { monitorExpiry } from "../constants";
   import { orgChangelog, orgMonitor } from "@nrk/origo";
@@ -38,7 +38,8 @@
     }
   }
   function resetForm(): void {
-    console.log("reset to when opened");
+    console.log("resetting form", $SAVED_FORM);
+    FORM.set({...$SAVED_FORM});
   }
   function testForm(): void {
     console.log("testing form");
@@ -114,16 +115,29 @@
   <be-expand>
     <label>
       Emne
-      <input id="emailSubject" type="text" class="org-input" bind:value={$FORM.emailReceipt.languages.nb.subject} />
+      <input
+        id="emailSubject"
+        type="text"
+        class="org-input"
+        bind:value={$FORM.emailReceipt.languages.nb.subject}
+      />
     </label>
     <label>
       Tekst som skal være med i e-posten
-      <textarea id="emailDescription" class="org-input" bind:value={$FORM.emailReceipt.languages.nb.description}
+      <textarea
+        id="emailDescription"
+        class="org-input"
+        bind:value={$FORM.emailReceipt.languages.nb.description}
       ></textarea>
     </label>
     <label>
       Inkluder skjema i e-posten
-      <input type="checkbox" id="includeMetadata" bind:checked={$FORM.emailReceipt.includeMetadata} />
+      <input
+        type="checkbox"
+        class="org-switch"
+        id="includeMetadata"
+        bind:checked={$FORM.emailReceipt.includeMetadata}
+      />
     </label>
   </be-expand>
   <button class="org-button org-button--secondary" on:click|preventDefault={resetForm}

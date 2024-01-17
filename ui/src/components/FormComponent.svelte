@@ -22,8 +22,9 @@
     });
   }
   function deleteItem(): void {
-    const tempForm = $FORM.form;
+    const tempForm = $FORM.form.concat([]);
     tempForm.splice(index, 1);
+    //@ts-ignore
     $FORM.form = tempForm;
   }
 </script>
@@ -95,8 +96,8 @@
       <figure>
         <KaleidoEditor {saveImage} id={item.kaleidoid} format="16:9" button={false} />
         {#if item.kaleidoid}
-        {item.label.nb}
-        <p class="altText"><strong>AltText </strong>{item.alternativeText || '(Mangler)'}</p>
+          {item.label.nb}
+          <p class="altText"><strong>AltText </strong>{item.alternativeText || "(Mangler)"}</p>
         {/if}
       </figure>
     {/if}
@@ -147,11 +148,11 @@
     font-size: 1.5em;
   }
   .altText {
-    background:rgb(255,255,255,0.7);
-    position:relative;
-    width:90%;
+    background: rgb(255, 255, 255, 0.7);
+    position: relative;
+    width: 90%;
     text-align: center;
-    margin:auto;
-    top:-80px;
+    margin: auto;
+    top: -80px;
   }
 </style>

@@ -1,14 +1,15 @@
 <script lang="ts">
   import { orgPlus } from "@nrk/origo";
-  import { FORM } from "../state";
+  import { FORM, SAVED_FORM } from "../state";
   import SortableList from "svelte-sortable-list";
   import FormComponent from "./FormComponent.svelte";
   import { defaultData } from "../constants";
   import { v4 as uuidv4 } from "uuid";
+  import Contract from "./form/Contract.svelte";
 
   function addNewItem() {
     $FORM.form.forEach((f) => (f.editing = false));
-    const tempForm = $FORM.form;
+    const tempForm = $FORM.form.concat([]);
     // @ts-ignore
     tempForm.push({
       ...defaultData["text"],
@@ -18,6 +19,7 @@
       signiantArgumentName: uuidv4(),
       validations: {required:false},
     });
+    //@ts-ignore
     $FORM.form = tempForm;
   }
 
