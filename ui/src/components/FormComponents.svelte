@@ -11,9 +11,7 @@
     orgPlayCl,
   } from "@nrk/origo";
   export let index: number;
-  function testFn() {
-    console.log("hei");
-  }
+
   function updateType(ev:any
   ): void {
     const type = ev.target.value;
@@ -33,7 +31,6 @@
         break;
       case "list":
         $FORM.form[index].items = [{ name: "Valg", value: "verdi" }];
-
         break;
       case "checkboxGroup":
         $FORM.form[index].items = [{ name: "Valg", checked: true }];

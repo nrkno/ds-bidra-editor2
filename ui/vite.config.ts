@@ -7,8 +7,6 @@ import type { Config } from "./src/config";
 const config: Config = {
 	release: process.env.RELEASE || "dev",
 	apiHost: "http://localhost:80",
-	navigationBehavior: "LOCATION",
-	authenticationFlow: "REDIRECT",
 };
 
 // https://vitejs.dev/config/

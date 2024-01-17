@@ -23,5 +23,6 @@ export async function getGroups(accessToken: string): Promise<any> {
     return groups.data;
   } catch (error) {
     console.log("error getting groups", error);
+    return { value: [] };
   }
 }

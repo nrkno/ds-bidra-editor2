@@ -2,7 +2,7 @@ import Axios from "axios";
 import type { userData } from "../../../api/src/auth";
 
 export async function saveFormToDatabase(form: any): Promise<boolean> {
-  console.log("Saving form to database", form);
+
   return true;
 }
 export async function getAllAgreements() {
@@ -19,7 +19,7 @@ export async function getAllAgreements() {
   }
 }
 export async function getAllActiveForms() {
-  const request = `forms/active`;
+  const request = `http://localhost/forms/active`;
   try {
     const response = await Axios.get(request, {
       headers: {
@@ -34,7 +34,7 @@ export async function getAllActiveForms() {
 }
 
 export async function getUserData():Promise<userData> {
-  const request = `/me`;
+  const request = `http://localhost/me`;
   try {
     const response = await Axios.get(request, {
       headers: {
@@ -43,7 +43,7 @@ export async function getUserData():Promise<userData> {
     });
     return response.data;
   } catch (err: any) {
-    console.error("Could not get userdata", err, err?.response?.status, err?.response?.body);
+    console.error("No access token present, so can´t get user DisplayName or Group membership");
     return { displayName: "Ikke innlogget", accessGroups: [] }
   }
 }

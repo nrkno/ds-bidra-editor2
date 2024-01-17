@@ -34,7 +34,7 @@
 </div>
 
 <textarea>
-  {JSON.stringify($FORM)}
+  {JSON.stringify($FORM, null, 2)}
 </textarea>
 
 <style>

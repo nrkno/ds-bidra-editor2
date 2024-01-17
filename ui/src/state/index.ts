@@ -6,7 +6,7 @@ export const FORM = writable<FormData>();
 export const SHOWFORMS = writable<boolean>(true);
 
 export const USERDATA = writable<userData>({
-  displayName: "unkown",
+  displayName: "unknown",
   accessGroups: [{ name: "test", id: "sdfsdfsdf" }],
 });
 export interface FormEventHandler {

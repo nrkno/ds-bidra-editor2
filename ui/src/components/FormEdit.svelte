@@ -19,7 +19,6 @@
       }
     }
     const saved = await saveFormToDatabase($FORM);
-    console.log("Saved to database", saved);
   }
   function init(el: HTMLElement) {
     el.focus();
