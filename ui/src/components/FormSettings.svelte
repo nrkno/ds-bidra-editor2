@@ -20,8 +20,21 @@
   function saveValue(event: FormEventHandler): void {
     const target = event.target as HTMLInputElement;
     if (target?.value && target?.id) {
-      // @ts-ignore
-      $FORM[target.id] = target.value;
+      switch (target?.id) {
+        case "emailSubject":
+          $FORM.emailReceipt.languages.nb.subject = target.value;
+          break;
+        case "emailDescription":
+          $FORM.emailReceipt.languages.nb.description = target.value;
+          break;
+        case "includeMetadata":
+          $FORM.emailReceipt.includeMetadata = target.checked;
+          break;
+        default:
+          // @ts-ignore
+          $FORM[target.id] = target.value;
+          break;
+      }
     }
   }
   function resetForm(): void {
@@ -101,12 +114,16 @@
   <be-expand>
     <label>
       Emne
-      <input id="emailSubject" type="text" class="org-input" bind:value={$FORM.emailSubject} />
+      <input id="emailSubject" type="text" class="org-input" bind:value={$FORM.emailReceipt.languages.nb.subject} />
     </label>
     <label>
       Tekst som skal være med i e-posten
-      <textarea id="emailDescription" class="org-input" bind:value={$FORM.emailDescription}
+      <textarea id="emailDescription" class="org-input" bind:value={$FORM.emailReceipt.languages.nb.description}
       ></textarea>
+    </label>
+    <label>
+      Inkluder skjema i e-posten
+      <input type="checkbox" id="includeMetadata" bind:checked={$FORM.emailReceipt.includeMetadata} />
     </label>
   </be-expand>
   <button class="org-button org-button--secondary" on:click|preventDefault={resetForm}

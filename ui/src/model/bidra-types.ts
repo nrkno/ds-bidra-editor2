@@ -44,6 +44,7 @@ export interface FormData {
     fromName: string;
     from: string;
     template: string;
+    includeMetadata: boolean;
     languages: {
       nb: {
         subject: string;
