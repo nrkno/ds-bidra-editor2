@@ -114,13 +114,12 @@ export default async function createServer(opts?: { withLog: boolean }): Promise
   });
 
   app.get("/me", async (request: any, reply) => {
-    console.log("request.headers", request.headers["x-forwarded-access-token"]);
     if (request.headers["x-forwarded-access-token"]) {
       const accessToken = request.headers["x-forwarded-access-token"];
       const userData = await getUserData(accessToken);
       reply.status(200).send(userData);
     } else {
-      reply.status(403).send("Forbidden");
+      reply.status(403).send({displayName: "Ikke innlogget", accessGroups: []});
     }
   });
 

@@ -1,12 +1,15 @@
 import Axios from "axios";
+import {getApiUrl} from "../config";
+
 import type { userData } from "../../../api/src/auth";
+
 
 export async function saveFormToDatabase(form: any): Promise<boolean> {
 
   return true;
 }
 export async function getAllAgreements() {
-  const request = `/agreement`;
+  const request = `${getApiUrl()}agreement`;
   try {
     const response = await Axios.get(request, {
       headers: {
@@ -19,7 +22,7 @@ export async function getAllAgreements() {
   }
 }
 export async function getAllActiveForms() {
-  const request = `http://localhost/forms/active`;
+  const request =  `${getApiUrl()}forms/active`;
   try {
     const response = await Axios.get(request, {
       headers: {
@@ -34,7 +37,7 @@ export async function getAllActiveForms() {
 }
 
 export async function getUserData():Promise<userData> {
-  const request = `http://localhost/me`;
+  const request =  `${getApiUrl()}me`;
   try {
     const response = await Axios.get(request, {
       headers: {
