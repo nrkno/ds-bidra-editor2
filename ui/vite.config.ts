@@ -6,7 +6,7 @@ import type { Config } from "./src/config";
 
 const config: Config = {
 	release: process.env.RELEASE || "dev",
-	apiHost: "http://localhost:80",
+	apiHost: "/",
 };
 
 // https://vitejs.dev/config/
