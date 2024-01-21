@@ -16,7 +16,7 @@
 	},
 	"scripts": {
 		"build": "vite build --config vite.config.ts",
-		"dev": "vite",
+		"dev": "vite --config vite.dev.config.ts",
 		"start": "vite",
 		"validate": "svelte-check"
 	},
