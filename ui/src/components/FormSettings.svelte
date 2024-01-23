@@ -3,6 +3,7 @@
   import KaleidoEditor from "./KaleidoEditor.svelte";
   import { monitorExpiry } from "../constants";
   import { orgChangelog, orgMonitor } from "@nrk/origo";
+  import { saveSettingsValue, resetForm } from "editState";
 
   function saveImage(derivateId: string): void {
     $FORM.kaleidoId = derivateId;
@@ -17,42 +18,22 @@
   $: activeFrom = convertTime($FORM.activeFrom);
   $: activeTo = convertTime($FORM.activeTo);
 
-  function saveValue(event: FormEventHandler): void {
-    const target = event.target as HTMLInputElement;
-    if (target?.value && target?.id) {
-      switch (target?.id) {
-        case "emailSubject":
-          $FORM.emailReceipt.languages.nb.subject = target.value;
-          break;
-        case "emailDescription":
-          $FORM.emailReceipt.languages.nb.description = target.value;
-          break;
-        case "includeMetadata":
-          $FORM.emailReceipt.includeMetadata = target.checked;
-          break;
-        default:
-          // @ts-ignore
-          $FORM[target.id] = target.value;
-          break;
-      }
-    }
+ function _saveValue(event: FormEventHandler): void {
+    saveSettingsValue(event);
   }
-  function resetForm(): void {
-    console.log("resetting form", $SAVED_FORM);
-    FORM.set({...$SAVED_FORM});
-  }
+
   function testForm(): void {
     console.log("testing form");
   }
 </script>
 
-<form on:change={saveValue}>
+<form on:change={_saveValue}>
   <button type="button">Generelt</button>
   <be-expand>
     <label>
       SkjemaID
       <span class="required">*</span>
-      <input id="name" type="text" class="org-input" bind:value={$FORM.name} />
+      <input id="name" type="text" class="org-input" value={$FORM.name} />
       <a href={`https://bidra.nrk.no/${$FORM.name}`}>{`https://bidra.nrk.no/${$FORM.name}`}</a><br
       />
     </label>
@@ -66,16 +47,16 @@
       <input
         type="text"
         id="formContactPerson"
-        on:keyup={saveValue}
+        on:keyup={_saveValue}
         class="org-input"
-        bind:value={$FORM.formContactPerson}
+        value={$FORM.formContactPerson}
       />
     </label>
     <div class="org-grid">
       <div class="org-6of12">
         <label>
           Aktivt fra
-          <input id="activeFrom" type="datetime-local" class="org-input" bind:value={activeFrom} />
+          <input id="activeFrom" type="datetime-local" class="org-input" value={activeFrom} />
         </label>
       </div>
 
@@ -83,7 +64,7 @@
         <label>
           Aktivt til
           <span class="required">*</span>
-          <input id="activeTo" type="datetime-local" class="org-input" bind:value={activeTo} />
+          <input id="activeTo" type="datetime-local" class="org-input" value={activeTo} />
         </label>
       </div>
     </div>
@@ -93,7 +74,7 @@
   <be-expand>
     <label>
       Når kan innsendinger slettes?
-      <select id="expiresInDays" bind:value={$FORM.expiresInDays} class="org-input">
+      <select id="expiresInDays" value={$FORM.expiresInDays} class="org-input">
         {#each monitorExpiry as me}
           <option value={me.value}>{me.label}</option>
         {/each}
@@ -101,7 +82,7 @@
     </label>
     <label>
       Skal tilgang begrenses til en gruppe?
-      <select id="accessGroupId" class="org-input" bind:value={$FORM.accessGroupId}>
+      <select id="accessGroupId" class="org-input" value={$FORM.accessGroupId}>
         <option value="">Ingen (Åpen for alle i NRK)</option>
         {#if $USERDATA.accessGroups.length >= 1}
           {#each $USERDATA.accessGroups as ag}
@@ -119,7 +100,7 @@
         id="emailSubject"
         type="text"
         class="org-input"
-        bind:value={$FORM.emailReceipt.languages.nb.subject}
+        value={$FORM.emailReceipt.languages.nb.subject}
       />
     </label>
     <label>
@@ -127,7 +108,7 @@
       <textarea
         id="emailDescription"
         class="org-input"
-        bind:value={$FORM.emailReceipt.languages.nb.description}
+        value={$FORM.emailReceipt.languages.nb.description}
       ></textarea>
     </label>
     <label>
@@ -136,7 +117,7 @@
         type="checkbox"
         class="org-switch"
         id="includeMetadata"
-        bind:checked={$FORM.emailReceipt.includeMetadata}
+        checked={$FORM.emailReceipt.includeMetadata}
       />
     </label>
   </be-expand>

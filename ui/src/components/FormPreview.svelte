@@ -1,30 +1,17 @@
 <script lang="ts">
   import { orgPlus } from "@nrk/origo";
+  import { produce } from "immer";
   import { FORM, SAVED_FORM } from "../state";
   import SortableList from "svelte-sortable-list";
   import FormComponent from "./FormComponent.svelte";
-  import { defaultData } from "../constants";
-  import { v4 as uuidv4 } from "uuid";
+  import { addNewItem } from "../editState";
   import Contract from "./form/Contract.svelte";
 
-  function addNewItem() {
-    $FORM.form.forEach((f) => (f.editing = false));
-    const tempForm = $FORM.form.concat([]);
-    // @ts-ignore
-    tempForm.push({
-      ...defaultData["text"],
-      _id: uuidv4(),
-      editing: true,
-      type: "text",
-      signiantArgumentName: uuidv4(),
-      validations: {required:false},
-    });
-    //@ts-ignore
-    $FORM.form = tempForm;
-  }
-
   const sortList = (ev: any) => {
-    $FORM.form = ev.detail;
+    const tempForm = produce($FORM, (draft) => {
+      draft.form = ev.detail;
+    });
+    FORM.set(tempForm);
   };
 </script>
 
@@ -35,8 +22,11 @@
   <button class="org-button" on:click={addNewItem}>{@html orgPlus}</button>
 </div>
 
-<textarea>
+<textarea class="org-6of12">
   {JSON.stringify($FORM, null, 2)}
+</textarea>
+<textarea class="org-6of12">
+  {JSON.stringify($SAVED_FORM, null, 2)}
 </textarea>
 
 <style>

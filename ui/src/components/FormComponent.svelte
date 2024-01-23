@@ -1,31 +1,23 @@
 <script lang="ts">
-  import { FORM } from "../state";
   import { orgGarbage, orgEditMetadata, orgMoveVertical } from "@nrk/origo";
   import KaleidoEditor from "./KaleidoEditor.svelte";
   import Video from "./form/Video.svelte";
   import Contract from "./form/Contract.svelte";
   import FormComponents from "./FormComponents.svelte";
   import FormEdit from "./FormEdit.svelte";
+  import { deleteItem, toggleEditMode, saveIllustration } from "../editState";
   export let item: any;
   export let index: number;
 
-  function saveImage(derivateId: string): void {
-    $FORM.form[index].kaleidoid = derivateId;
+  function _saveIllustration(derivateId: string): void {
+    saveIllustration(index, derivateId);
   }
-  function toggleEditMode(): void {
-    $FORM.form.forEach((f, idx) => {
-      if (idx !== index) {
-        $FORM.form[idx].editing = false;
-      } else {
-        $FORM.form[idx].editing = !f.editing;
-      }
-    });
+  function _toggleEditMode(): void {
+    toggleEditMode(index);
   }
-  function deleteItem(): void {
-    const tempForm = $FORM.form.concat([]);
-    tempForm.splice(index, 1);
-    //@ts-ignore
-    $FORM.form = tempForm;
+
+  function _deleteItem(): void {
+    deleteItem(index);
   }
 </script>
 
@@ -94,9 +86,9 @@
     {/if}
     {#if item.type === "image"}
       <figure>
-        <KaleidoEditor {saveImage} id={item.kaleidoid} format="16:9" button={false} />
+        <KaleidoEditor {_saveIllustration} id={item.kaleidoid} format="16:9" button={false} />
         {#if item.kaleidoid}
-          {item.label.nb}
+          {item.label?.nb}
           <p class="altText"><strong>AltText </strong>{item.alternativeText || "(Mangler)"}</p>
         {/if}
       </figure>
@@ -112,8 +104,8 @@
     <FormComponents {index} />
   </div>
   <div class="org-1of12">
-    <button on:click={deleteItem} class="org-button">{@html orgGarbage}</button>
-    <button on:click={toggleEditMode} class="org-button">{@html orgEditMetadata}</button>
+    <button on:click={_deleteItem} class="org-button">{@html orgGarbage}</button>
+    <button on:click={_toggleEditMode} class="org-button">{@html orgEditMetadata}</button>
   </div>
 </div>
 

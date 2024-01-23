@@ -1,27 +1,17 @@
 <script lang="ts">
-  import { FORM, type FormEventHandler } from "../state";
+  import { type FormEventHandler } from "../state";
   import { selectTextOnFocus } from "../utils";
-  import { saveFormToDatabase } from "api/index";
   import { orgExternalLink, orgInfo } from "@nrk/origo";
+  import { saveValue } from "editState";
   export let componentData: any;
   export let index: number;
 
-  async function saveValue(event: FormEventHandler): Promise<void> {
-    const target = event.target as HTMLInputElement;
-    if (target.id === "required") {
-      $FORM.form[index].validations = { required: target.checked };
-    } else if (target.id === "label") {
-      $FORM.form[index].label.nb = target.value;
-    } else {
-      if (target.value) {
-        // @ts-ignore
-        $FORM.form[index][target.id] = target.value;
-      }
-    }
-    const saved = await saveFormToDatabase($FORM);
-  }
   function init(el: HTMLElement) {
     el.focus();
+  }
+
+  function _saveValue(event: FormEventHandler): void {
+    saveValue(index, event);
   }
 </script>
 
@@ -31,7 +21,7 @@
       <label>
         Overskrift
         <input
-          on:keyup={saveValue}
+          on:keyup={_saveValue}
           id="label"
           type="text"
           class="org-input"
@@ -44,7 +34,7 @@
         <label>
           Påkrevd
           <input
-            on:change={saveValue}
+            on:change={_saveValue}
             id="required"
             type="checkbox"
             class="org-switch"
@@ -56,7 +46,7 @@
         <label>
           Alternativ tekst
           <input
-            on:blur={saveValue}
+            on:blur={_saveValue}
             type="text"
             id="alternativeText"
             class="org-input"
@@ -68,7 +58,7 @@
         <label>
           Video ID
           <input
-            on:change={saveValue}
+            on:change={_saveValue}
             type="text"
             id="videoId"
             class="org-input"
@@ -88,9 +78,9 @@
         <label>
           Video Aspekt
           <select
-            on:change={saveValue}
+            on:change={_saveValue}
             id="videoAspect"
-            bind:value={componentData.videoAspect}
+            value={componentData.videoAspect}
             class="org-input"
           >
             <option value="16:9">16:9 (Normal)</option>
@@ -104,9 +94,9 @@
         <label>
           Filtyper
           <select
-            on:change={saveValue}
+            on:change={_saveValue}
             id="accepted"
-            bind:value={componentData.accepted}
+            value={componentData.accepted}
             class="org-input"
           >
             <option value="image">Kun bilder</option>
@@ -119,9 +109,9 @@
         <label>
           Avtaletekst
           <select
-            on:change={saveValue}
+            on:change={_saveValue}
             id="contract"
-            bind:value={componentData.contract}
+            value={componentData.contract}
             class="org-input"
           >
             <option value="general">Generell</option>

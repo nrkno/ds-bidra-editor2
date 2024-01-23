@@ -1,5 +1,6 @@
 <script lang="ts">
   import { FORM } from "../state";
+  import { produce } from "immer";
   import {
     orgImage,
     orgUpload,
@@ -12,36 +13,39 @@
   } from "@nrk/origo";
   export let index: number;
 
-  function updateType(ev:any
-  ): void {
-    const type = ev.target.value;
-    switch (type) {
-      case "image":
-        console.log("saving image case", $FORM.form[index]);
-        $FORM.form[index].kaleidoid = "U3_Lg50O2IFV_8s4MTzxKAst5YsDnzsr3j5eqQjlq8Yg";
-        $FORM.form[index].imageAltText = "Et bilde";
-        break;
-      case "email":
-        $FORM.form[index].signiantArgumentName = "email";
-      case "file":
-        $FORM.form[index].accept = "imageandvideo";
-        break;
-      case "contract":
-        $FORM.form[index].contractId = "general";
-        break;
-      case "list":
-        $FORM.form[index].items = [{ name: "Valg", value: "verdi" }];
-        break;
-      case "checkboxGroup":
-        $FORM.form[index].items = [{ name: "Valg", checked: true }];
-        break;
-      case "video":
-        $FORM.form[index].videoId = "0b5f3b0a-7577-4b81-93bb-1d4e85a4aa5a";
-        $FORM.form[index].videoAspect = "16:9";
-      default:
-        break;
-    }
-    $FORM.form[index].type = type;
+  function updateType(ev: any): void {
+    const tempForm = produce($FORM, (draft) => {
+      //draft.form[index].kaleidoid = derivateId;
+      const type = ev.target.value;
+      switch (type) {
+        case "image":
+          console.log("saving image case", draft.form[index]);
+          draft.form[index].kaleidoid = "U3_Lg50O2IFV_8s4MTzxKAst5YsDnzsr3j5eqQjlq8Yg";
+          draft.form[index].imageAltText = "Et bilde";
+          break;
+        case "email":
+          draft.form[index].signiantArgumentName = "email";
+        case "file":
+          draft.form[index].accept = "imageandvideo";
+          break;
+        case "contract":
+          draft.form[index].contractId = "general";
+          break;
+        case "list":
+          draft.form[index].items = [{ name: "Valg", value: "verdi" }];
+          break;
+        case "checkboxGroup":
+          draft.form[index].items = [{ name: "Valg", checked: true }];
+          break;
+        case "video":
+          draft.form[index].videoId = "0b5f3b0a-7577-4b81-93bb-1d4e85a4aa5a";
+          draft.form[index].videoAspect = "16:9";
+        default:
+          break;
+      }
+      draft.form[index].type = type;
+    });
+    FORM.set(tempForm);
   }
   const FORM_COMPONENTS = [
     { id: "text", description: "Kort spørsmål", icon: "<span>A_</span>" },
@@ -67,7 +71,7 @@
       {@html FORM_COMPONENTS.filter((fc) => fc.id === $FORM.form[index].type)[0]?.icon}
     </div>
     <div class="org-10of12">
-      <select bind:value={$FORM.form[index].type} on:change={updateType} class="org-input">
+      <select value={$FORM.form[index].type} on:change={updateType} class="org-input">
         {#each FORM_COMPONENTS as fc}
           <option value={fc.id}>{fc.description}</option>
         {/each}

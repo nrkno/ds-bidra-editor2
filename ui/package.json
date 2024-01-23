@@ -30,6 +30,7 @@
 		"@nrk/origo-dropdown": "^5.0.0",
 		"@nrk/origo-expand": "^5.0.0",
 		"axios": "^1.5.0",
+		"immer": "^10.0.3",
 		"mongoose": "^6.2.3",
 		"svelte-sortable-list": "1.1.0",
 		"uuid": "^9.0.1"
