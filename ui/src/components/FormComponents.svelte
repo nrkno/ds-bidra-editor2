@@ -11,12 +11,30 @@
     orgDotHollow,
     orgPlayCl,
   } from "@nrk/origo";
+  import { v4 as uuidv4 } from "uuid";
   export let index: number;
 
+  const ELEMENT_SPECIFIC_PROPS = [
+    "kaleidoid",
+    "imageAltText",
+    "contractId",
+    "maxFileSize",
+    "accept",
+    "videoId",
+    "videoAspect",
+    "items",
+  ];
   function updateType(ev: any): void {
     const tempForm = produce($FORM, (draft) => {
       //draft.form[index].kaleidoid = derivateId;
+      draft.form[index].signiantArgumentName = uuidv4();
+      // delete unused props
       const type = ev.target.value;
+      ELEMENT_SPECIFIC_PROPS.forEach((prop: unknown) => {
+        //@ts-ignore
+        delete draft.form[index][prop];
+      });
+
       switch (type) {
         case "image":
           console.log("saving image case", draft.form[index]);
